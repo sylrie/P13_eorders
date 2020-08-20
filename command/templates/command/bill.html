@@ -1,0 +1,70 @@
+{% extends 'command/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="page-section h-100">
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center pb-1">
+			<a href="{% url 'ordering' %}">Retour au menu</a>
+		</div>
+		<div class="row d-flex justify-content-between pb-1">
+			<div class="col-5 text-center">
+				{{ user }}
+			</div>
+			<div class="col-5 text-center">
+				table
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid px-2 mb-3">
+		<div class="new row d-flex justify-content-center bg-dark mb-2">
+			<button class="btn rounded m-2 px-1 py-0" onclick="displayElt('new_orders')">Nouvelle(s)</button>
+		</div>
+		<div class="container-fluid p-0" id="new_orders">
+			{% for line in bill_data %}
+			{% if line.status == 'new' %}
+				<div class="new row d-flex justify-content-center bg-dark mb-2" >
+					<span class="col-9">
+						{{ line.product.name }}
+					</span>
+					<span class="col-3 text-right">
+						{% if line.price == 0 %}
+						Offert
+						{% else %}
+						{{line.price}} €
+						{% endif %}
+					</span>
+				</div>
+			{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="container-fluid px-2 mb-3">
+		<div class="row d-flex justify-content-center bg-dark mb-2">
+			<button class="btn rounded m-2 px-1 py-0" onclick="displayElt('delivered_orders')">Livrée(s)</button>
+		</div>
+		<div class="container-fluid p-0" id="delivered_orders">
+			{% for line in bill_data %}
+			{% if not line.status == 'new' %}
+			<div class="row d-flex justify-content-center bg-dark mb-2">
+				<span class="col-9">
+					{{ line.product.name }}
+				</span>
+				<span class="col-3 text-right">
+					{% if line.price == 0 %}
+					Offert
+					{% else %}
+					{{line.price}} €
+					{% endif %}
+				</span>
+			</div>
+		{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+</section>
+
+{% endblock %}

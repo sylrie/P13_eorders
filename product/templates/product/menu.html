@@ -1,0 +1,27 @@
+<div>
+    
+    {% for family in family %}
+    <h3>{{ family }}</h3>
+    
+        {% for product in menu %}
+        {% if product.family == family%}
+
+        <div>
+            <tr>
+
+                <td> - <span>0</span> + </td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.details }}</td>
+                <td><strong>{{ product.unit_price }} €</td></strong>
+                
+            </tr>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+
+    {% endfor %}
+
+  </div>
+  
+  <button>Valider</button>

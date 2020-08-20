@@ -1,0 +1,105 @@
+{% load account %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+ 
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Sylvain Rieutor">
+
+    <title>{% block title %}Acceuil{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'command/img/nav/favicon_pur_beurre.ico' %}"/>
+
+    <!-- Font Awesome Icons -->
+    <link href="{% static 'command/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet" type="text/css">
+    
+    <!-- Plugin CSS -->
+    <link href="{% static 'command/vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
+    
+    <!-- Theme CSS - Includes Bootstrap -->
+    <link href="{% static 'command/css/creative.css' %}" rel="stylesheet">
+    <link href="{% static 'command/css/style.css' %}" rel="stylesheet">
+
+  </head>
+
+  <body class="d-flex flex-column h-100">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container-fluid mx-1">  
+        
+        <h2 class="title">
+          <a class="navbar-brand js-scroll-trigger" title="Accueil" href="{% url 'index' %}">
+            <img class="img-fluid pr-1" src="{% static 'command/img/nav/logo_monpetitbar.png' %}" alt="Logo" style="max-height: 40px;">
+            <strong>MonPtitBar</strong>
+          </a>
+        </h2>
+
+        <button class="navbar-toggler navbar-toggler-right px-2" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto text-right align-items-end my-2 my-lg-0">
+
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <i class="fas fa-user"><strong> {% user_display user %}</strong></i>
+            </li>
+            {% endif %}
+
+            {% if table %}
+            <li class="nav-item">
+              <i class="fas fa-chair"> N° <strong> {{table}}</strong></i>
+            </li>
+            <li class="nav-item">
+              <i class="fas fa-key"><strong> {{ code }}</strong></i>  
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'get_bill' %}">
+                <i class="fas fa-user" title="Se Connecter"></i>
+              </a>
+            </li>
+            {% endif %}
+
+            {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/">
+                <i class="fas fa-tools" title="Administrateur"></i>
+              </a>
+            {% endif %}
+
+           
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <div class="d-flex flex-column h-100">
+    {% block content %}{% endblock %}
+    </div>
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'command/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'command/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'command/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'command/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+    
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'command/js/index.js' %}"></script>
+    
+  </body>
+
+</html>

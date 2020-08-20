@@ -1,0 +1,92 @@
+{% extends 'command/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% load account %}
+{% load static %}
+{% block content %}
+
+<div class="d-flex flex-column h-100">
+  <section class="page-section">
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+        {% if user.is_authenticated %}
+        <h3 class="pb-0">Bienvenue</h3>
+        <div class="row w-100"></div>
+        <h3 style="text-transform: capitalize;"><strong>{% user_display user %}</strong></h3>
+        {% endif %}
+      </div>
+      <div class="row w-100"></div>
+      {% if error %}
+      <div class="row d-flex justify-content-center">
+        <div class="row alert alert-warnig justify-content-center w-100">
+          <p class="m-1">{{error}}</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if open_table %}
+  <section class="page-section py-2">
+    <div class="container-fluid col-lg-11">
+      <div class="row d-flex justify-content-center">
+        <h3>Sélectionnez votre table:</h3>
+        <div class="row w-100"></div>
+        {% for table in open_table %}
+        <a class="col-2 d-flex m-1 border rounded justify-content-center align-items-center bg-dark"
+          href="{% url 'openning_bill' %}?table={{ table.number }}">
+          <div>
+            {{ table.number }}
+          </div>
+        </a>
+        {% endfor %}
+        <div class="row w-100"></div>
+      <div> 
+    </div>
+    {% endif %}
+  </section>
+
+  {% if taken_table %}
+  <hr class="divider mt-5">
+  <section class="page-section py-2">
+    <div class="container-fluid col-lg-11">
+      
+      <div class="row d-flex justify-content-center align-items-center">
+        <h3 class="pb-3">Rejoignez une table</h3>
+        <div class="row w-100"></div>
+        <div class="row d-flex m-2">
+          <label class="m-0" for="taken_table">Table: </label>
+          <select id="taken_table" name="table" form="taken-table-form">
+            {% for table in taken_table %}
+            <option value="{{ table.number }}">{{ table.number }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="row w-100"></div>
+        <div class="row d-flex m-2 ">
+          <form action="{% url 'openning_bill' %}" id="taken-table-form" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <label for="code">Code:</label>
+            <input type="text" id="code" name="code"
+            placeholder='XXXXX' size="5" maxlength="5" required>
+            <input type="submit">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p>test pour fermer table:</p>
+      {% for table in taken_table %}
+      <a href="{% url 'closing_bill' %}?table={{ table.number }}">
+        {{ table.number }}
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  
+  {% endif %}
+  
+</div>
+{% include 'command/footer.html' %}
+{% endblock %}
