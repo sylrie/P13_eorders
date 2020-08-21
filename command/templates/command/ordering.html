@@ -4,12 +4,10 @@
 {% block content %}
 
 
-
-
 <section class="page-section h-100">
   <div class="container-fluid">
     <div class="row d-flex justify-content-around ">
-      <span class=""> Nombre d'article: <strong>{{ order_data.items_qty }}</strong></span>
+      <span class="">Nombre d'article: <strong>{{ order_data.items_qty }}</strong></span>
       <span class="">Note: <strong>{{ order_data.total_price|floatformat:2 }} €</strong></span>
     </div>
     {% if message %}
