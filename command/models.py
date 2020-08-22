@@ -16,7 +16,7 @@ class Table(models.Model):
     number = models.IntegerField(primary_key=True, null=False, unique=True)
     size = models.IntegerField(null=False)
     status = models.CharField(max_length=50, choices=TABLE_STATUS, default='open')
-    code = models.CharField(max_length=5, default='00000')
+    code = models.CharField(max_length=5, default='0000')
 
     class Meta:
         ordering = ['number']
@@ -91,14 +91,15 @@ class Command(models.Model):
     """ Command """
     COMMAND_STATUS = [
         ('new', 'Nouvelle'),
+        ('in progress', 'en cours'),
         ('delivered', 'Livrée'),
-        ('canceled', 'Annulée'),
+        ('payed', 'Payée'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.FloatField(null=False)
+    price = models.FloatField()
     status = models.CharField(max_length=50, choices=COMMAND_STATUS, default='new')
     date = models.DateTimeField(default=timezone.now)
     
@@ -128,12 +129,23 @@ class CommandManager(models.Model):
 
         return new
 
-    def new_order_data(self, user, bill):
-
-        items = Command.objects.filter(user=user, bill=bill, status='new')
-        items_qty = items.aggregate(Count('status'))
+    def order_data(self, bill, status=None, user=None):
+        
+        if status:
+            if user:
+                items = Command.objects.filter(user=user, bill=bill, status=status)
+            else:
+                items = Command.objects.filter(bill=bill, status=status)
+        
+        else:
+            if user:
+                items = Command.objects.filter(user=user, bill=bill)
+            else:
+                items = Command.objects.filter(bill=bill)
+        
+        items_qty = items.exclude(status='payed').aggregate(Count('status'))
         total_price = 0
-        for item in items:
+        for item in items.exclude(status='payed'):
             total_price += item.price 
         
         order = {
@@ -148,12 +160,36 @@ class CommandManager(models.Model):
         to_cancel.delete()
         return to_cancel.product
     
-    def get_bill_data(self, bill, filter=None):
+    def get_bill_data(self, bill, user=None):
         #orders = orders.values('product').annotate(total=DistinctSum('qty'))
         #orders = Command.objects.filter(bill=bill).annotate(total_qty=Count('product')).order_by('-status', 'product')
         #orders = Command.objects.filter(bill=bill).order_by('-status', 'product', 'qty').annotate(total=('qty'))
-        
-        orders = Command.objects.filter(bill=bill).order_by('-status', 'product')#.distinct('status', 'product')
+        if user:
+            orders = Command.objects.filter(user=user, bill=bill).order_by('-status', 'product')
+        else:
+            orders = Command.objects.filter(bill=bill).order_by('-status', 'product')#.distinct('status', 'product')
         
         return orders
+
+    def payment(self, bill, user=None):
+        if user:
+            try:
+                new = Command.objects.filter(user=user, bill=bill, status='new')
+                new.delete()
+                to_pay = Command.objects.filter(user=user, bill=bill, status='delivered')
+            except:
+                print('hein?')
+
+        else:
+            try:
+                new = Command.objects.filter(bill=bill, status='new')
+                new.delete()
+                to_pay = Command.objects.filter(bill=bill, status='delivered')
+            except:
+                print('hein?')
+        
+        to_pay.update(status='payed')
+        
+
+        
 

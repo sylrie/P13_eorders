@@ -50,9 +50,6 @@ h5 {
   margin-bottom: 3rem;
   
 }
-#new_orders, #delivered_orders {
-  display: none;
-}
 
 .masthead {
   color: var(--biscuit);
@@ -268,7 +265,7 @@ footer {
   border-radius: 2px;
   color: var(--moules);
   padding:6px 0 6px 0;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: bold;
   box-shadow: 1px 1px 1px rgba(0,0,0, 1),
   -2px -1px 0 var(--moules);

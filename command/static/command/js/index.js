@@ -10,3 +10,11 @@ function displayElt(id) {
     }
   }
 
+function Payment(amount, type) {
+    if (type == 'cb'){
+        alert("Un paiement de " + amount + "€ à été effectué par CB")
+    } else {
+        alert("Un memre de l'équipe à été prévenue, vous devrez régler " + amount + "€")
+    }
+    
+}
