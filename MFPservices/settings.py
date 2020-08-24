@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    
     #socialaccount
     'allauth.socialaccount.providers.facebook',
 ]
@@ -107,7 +108,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'MFPservices.urls'
-
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
