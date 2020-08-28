@@ -47,8 +47,11 @@ class ProductManager(models.Model):
 
     def get_menu(self, family_name=None):
         
+        family = []
         category = ProductCategory.objects.all()
-        family = (ProductFamily.objects.all())
+        families = (ProductFamily.objects.all())
+        for name in families:
+            family.append(name)
         items = Product.objects.filter(avaiable=True).order_by('category', 'family', 'unit_price')
 
         menu = {

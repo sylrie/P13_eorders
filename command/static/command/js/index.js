@@ -10,8 +10,6 @@ function displayElt(id, idButton) {
             button.style.border = 'solid #f14806';
         }
         
-
-        
     } else {
         elt.style.display = "none";
         if (idButton){

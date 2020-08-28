@@ -138,6 +138,7 @@ class OrderManager():
                     self.message = "- {}".format(
                         self.product.name
                     )
+                    self.order_id = None
                 except:
                     self.error = "La commande à déjà été prise en compte"
         
