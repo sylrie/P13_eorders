@@ -1,0 +1,9 @@
+{% extends 'command/base.html' %}
+{% load static %}
+{% block content %}
+  <section class="page-section align-self-baseline py-8 bg-info text-center h-100" id="500">
+    <img class="img-fluid " src="{% static 'command/img/500.png' %}" alt="Error 500">
+    <h3 class="text-warning">Erreur interne du serveur</h3>
+    <h2 class="text-gray-dark">Error 500: internal server error</h2>
+  </section>
+{% endblock %}

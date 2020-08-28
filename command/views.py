@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Table, TableConnect, Bill, TableConnectManager, BillManager, CommandManager
+from .models import Table, TableConnect, Bill, TableConnectManager, BillManager, CommandManager, PaymentManager
 from product.models import ProductManager
 from .scripts import table_connection, closing_table
 from .forms import JoinTable, PayBill
@@ -13,19 +13,25 @@ def index(request, error=None):
         return render(request, 'account/login.html')
 
     else:
-        open_table = Table.objects.filter(status='open')
-        taken_table = Table.objects.filter(status='taken')
+        try:
+            TableConnectManager().get_connection_table(user=request.user)
+            return OrderManager().ordering(request)
         
-        message = "Sélectionnez la table"
-        context = {
-            'error': error,
-            'open_table': open_table,
-            'taken_table': taken_table,
-            'message': message,
-        }
-        return render(request, 'command/home.html', context)
+        except:
+            open_table = Table.objects.filter(status='open')
+            taken_table = Table.objects.filter(status='taken')
+            
+            message = "Sélectionnez la table"
+            context = {
+                'error': error,
+                'open_table': open_table,
+                'taken_table': taken_table,
+                'message': message,
+            }
+            return render(request, 'command/home.html', context)
 
 def openning_bill(request):
+    
     if not request.user.is_authenticated:
          return index(request)
     if request.method == 'POST':
@@ -75,38 +81,33 @@ class OrderManager():
         self.code = None
         self.bill = None
         self.message = None
-        
+      
         if self.user:
             try:
                 self.table = TableConnectManager().get_connection_table(user=self.user)
             except:
-                pass
-
+                return index(request)
+        else:
+            return redirect('login')
+            
         if self.table:
             code = Table.objects.get(number=self.table)
             self.code = code.code
             try:
                 self.bill = BillManager().get_bill(table=self.table, status='open')
             except:
-                pass
-
-
-        return index(request)
-    
+                self.message = "Vous devez vous connecter à une table"
+                return index(request, error=self.message)
+   
     def ordering(self, request):
         self.get_data(request)
         self.menu = ProductManager().get_menu()
         self.product = None
         self.order_id = None
         self.order_data = None
+        self.new_data = None
         self.family = None
-        
-        if not request.user.is_authenticated:
-            return index(request)
-
-        if not self.table:
-            message = "Vous devez êtres connecté à une table"
-            return index(request, error=message)
+        self.error = None       
 
         if request.GET.get('add-product'):
             product = request.GET.get("add-product")
@@ -118,8 +119,7 @@ class OrderManager():
                 self.order_id = CommandManager().new_order(user=self.user, bill=self.bill, product=self.product)         
                 self.message = "+ {}".format(self.product.name)
                 
-            except Exception as err:
-                print(err)
+            except:
                 self.message = "Oups, la commande n'est pas passée ^^"
                
                 return index(request, error=self.message)
@@ -127,33 +127,37 @@ class OrderManager():
         else:
 
             if request.GET.get('del-product'):
-                order_id = request.GET.get('del-product')
-                
-            else:
-                order_id = request.GET.get('del-product-bill')
-                
-            try:
+                self.order_id = request.GET.get('del-product')
 
-                self.product = CommandManager().del_order(order_id=order_id)
-                self.message = "- {}".format(
-                    self.product.name
-                )
-            except Exception as err:
-                print(err)
+            else:
+                self.order_id = request.GET.get('del-product-bill')
+                
+            if self.order_id:
+                try:
+                    self.product = CommandManager().del_order(order_id=self.order_id)
+                    self.message = "- {}".format(
+                        self.product.name
+                    )
+                except:
+                    self.error = "La commande à déjà été prise en compte"
+        
         if request.GET.get('del-product-bill'):
             return self.get_bill(request)
-        
+      
         else:
-            self.order_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
-           
+            self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
+            self.order_data = CommandManager().order_data(user=self.user, bill=self.bill)
+            
             context = {
                 'message': self.message,
+                'error': self.error,
                 'table': self.table,
                 'code': self.code,
                 'bill': self.bill,
                 'menu': self.menu,
                 'order_id': self.order_id,
                 'order_data': self.order_data,
+                'new_data': self.new_data,
                 'family': self.family
             }
             
@@ -171,18 +175,23 @@ class OrderManager():
 
             user = User.objects.get(username=filter_name)
             self.bill_data =CommandManager().get_bill_data(user=user, bill=self.bill)
+            self.new_data = CommandManager().order_data(user=user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(user=user, bill=self.bill)
             self.filter_name = {
                 "name": filter_name.capitalize(),
                 "filter": 'Client  '
             }
+        
         else:
+            self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(bill=self.bill)
             self.bill_data =CommandManager().get_bill_data(bill=self.bill)
+        
         context = {
             'bill_data': self.bill_data,
             'user':self.user,
             'order_data': self.order_data,
+            'new_data': self.new_data,
             'filter_name': self.filter_name,
             'table': self.table,
             'code': self.code,
@@ -191,20 +200,22 @@ class OrderManager():
 
     def pay_bill(self, request):
         self.get_data(request)
+        
         if request.GET.get('payment-data'):
             filter_name = request.GET.get('payment-data')
             
             try:
                 int(filter_name)
                 try:
-                    to_pay = CommandManager().payment(bill=self.bill)
+                    PaymentManager().payment(bill=self.bill)
                     message = "payée"
                 except:
                     message = 'oups'
             except:
                 try:
-                    to_pay = CommandManager().payment(user=self.user, bill=self.bill)
+                    PaymentManager().payment(user=self.user, bill=self.bill)
                     message = "not int"
                 except:
                     pass
+        
         return index(request, error=message)

@@ -1,0 +1,9 @@
+{% extends 'command/base.html' %}
+{% load static %}
+{% block content %}
+  <section class="page-section align-self-baseline py-8 bg-info text-center h-100" id="404">
+    <img class="img-fluid " src="{% static 'command/img/404.png' %}" alt="Error 404">
+    <h3 class="text-warning">La page demandée <strong>n’existe pas</strong> ou n’existe plus</h3>
+    <h2 class="text-danger">"Error 404: File Not Found"</h2>
+  </section>
+{% endblock %}

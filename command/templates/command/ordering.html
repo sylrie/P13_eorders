@@ -1,5 +1,5 @@
 {% extends 'command/base.html' %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}MonPtiBar - Menu{% endblock %}
 {% load static %}
 {% block content %}
 
@@ -7,8 +7,8 @@
 <section class="page-section h-100">
   <div class="container-fluid">
     <div class="row d-flex justify-content-around ">
-      <span class="">Nombre d'article: <strong>+ {{ order_data.items_qty }}</strong></span>
-      <span class="">Note: <strong>+ {{ order_data.total_price|floatformat:2 }} €</strong></span>
+      <span class="">Nombre d'article: <strong>+ {{ new_data.items_qty }}</strong></span>
+      <span class="">Note: <strong>+ {{ new_data.total_price|floatformat:2 }} €</strong></span>
     </div>
     <div class="row d-flex justify-content-center p-1">
       <form action="{% url 'get_bill' %}" method="post">
@@ -16,10 +16,17 @@
         <button class="btn rounded px-3 mx-2 " >Voir la note</button>
       </form>
     </div>
+    {% if error %}
+    <div class="row d-flex justify-content-center">
+      <div class="row alert alert-warnig justify-content-center w-100">
+        <p class="m-1">{{error}}</p>
+      </div>
+    </div>
+    {% endif %}
     {% if message %}
-    <div class="row d-flex bg-dark justify-content-around align-items-center border border-light m-1"> 
+    <div class="row d-flex bg-dark justify-content-around align-items-center border border-success m-1"> 
       <div class="d-flex col-10">
-        <span class="text-white">{{ message }}<span>
+        <span class="text-success">{{ message }}<span>
       </div>
       
       {% if order_id %}
@@ -34,11 +41,11 @@
     {% endif %} 
   </div>
 
-  <div class="container-fluid py-1 px-0">
+  <div class="container-fluid">
     <div class="row d-flex justify-content-around">   
     {% for family in menu.family %}
-      <div class="d-flex col-3 p-0 m-1 bg-dark justify-content-center text-center align-items-center"
-        style="height:50px;" onclick="displayElt('{{ family }}')"><strong>{{ family }}</strong>
+      <div class="d-flex col-3 p-0  m-1 bg-dark justify-content-center text-center align-items-center"
+        style="height:55px;" id='{{ family }}button' onclick="displayElt('{{ family }}','{{ family }}button')"><strong><i>{{ family }}</i></strong>
       </div>
     {% endfor %}
     </div>

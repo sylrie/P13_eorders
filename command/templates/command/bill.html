@@ -1,5 +1,5 @@
 {% extends 'command/base.html' %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}MonPtiBar - Note{% endblock %}
 {% load static %}
 {% block content %}
 
@@ -18,21 +18,23 @@
 				>> Voir la note pour la table {{ table }}
 			</a>
 			{% else %}
-			<div class="text-center text-muted col-7">
-				Cliquez sur un client pour avoir la note du client
+			<div class="text-center text-muted col-9">
+				Cliquez sur un <i><u>client</u></i> pour avoir sa note
 			</div>
 			{% endif %}
 		</div>
 
-		<div class="row d-flex justify-content-between py-2">
-			<span class="col-5 text-center">Nombre d'article: <strong>{{ order_data.items_qty }}</strong></span>
-			<span class="col-5 text-center">Note: <strong>{{ order_data.total_price|floatformat:2 }} €</strong></span>
+		<div class="row d-flex justify-content-between align-items-center py-2">
+			<span class="col-5 text-center">Nombre d'article: <strong>{{ order_data.items_qty|add:new_data.items_qty }}</strong></span>
+			<span class="col-5 text-center">Note: <strong>{{ order_data.total_price|add:new_data.total_price|floatformat:2 }} €</strong></span>
 		</div>
 	</div>
 
-	<div class="container-fluid px-2 mb-4">
-		<div class="new row d-flex justify-content-center bg-dark mb-1">
+	<div class="container-fluid ">
+		<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
+			<div class="col-3 text-center"><strong>{{ new_data.items_qty }}</strong></div>
 			<button class="btn rounded col-4 m-2 px-1 py-0" onclick="displayElt('new_orders')">Nouvelle(s)</button>
+			<div class="col-3 text-center"><strong>{{ new_data.total_price|floatformat:2 }} €</strong></div>
 		</div>
 
 		<div class="container-fluid p-0" id="new_orders"  style="display: block;">
@@ -54,7 +56,7 @@
 					</span>
 					
 					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" class="col-3 text-center px-0" style="text-transform: capitalize;">
-						{{ line.user }}
+						<i>{{ line.user }}</i>
 					</a>
 
 					{% if line.price == 0 %}
@@ -71,26 +73,35 @@
 		</div>
 	</div>
 
-	<div class="container-fluid px-2 mb-4">
-		<div class="row d-flex justify-content-center bg-dark mb-1">
-			<button class="btn rounded col-4 m-2 px-1 py-0" onclick="displayElt('delivered_orders')">Livrée(s)</button>
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center align-items-center bg-dark mb-1">
+			<div class="col-3 text-center"><strong>{{ order_data.items_qty }}</strong></div>
+			<button class="btn rounded col-4 m-2 px-1 py-0"  onclick="displayElt('delivered_orders')">Livrée(s)</button>
+			<div class="col-3 text-center"><strong>{{ order_data.total_price|floatformat:2 }} €</strong></div>
 		</div>
 
-		<div class="container-fluid p-0" id="delivered_orders" style="display: none;">
+		<div class="container-fluid " id="delivered_orders" style="display: none;">
 			{% for line in bill_data %}
 			{% if line.status == 'payed' or line.status == 'delivered' %}
 				{% if line.status == 'payed' %}
 				<div class="row d-flex text-muted justify-content-center align-items-center bg-dark py-1 mb-1">
 				{% elif line.status == 'delivered' %}
-				<div class="row d-flex justify-content-center align-items-center bg-dark py-1 mb-1"></div>
+				<div class="row d-flex justify-content-center align-items-center bg-dark py-1 mb-1">
 				{% endif %}
+				{% if line.status == 'payed' %}
+					<span class="col-2">
+						<i>Payée</i>
+					</span>
+					<span class="col-5">
+						{% else %}
 					<span class="col-7">
+						{% endif %}	
 						{{ line.product.name }}
 					</span>
 
-					<span class="col-3 text-center px-0" style="text-transform: capitalize;">
-						{{ line.user }}
-					</span>
+					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" class="col-3 text-center px-0" style="text-transform: capitalize;">
+						<i>{{ line.user }}</i>
+					</a>
 
 					{% if line.price == 0 %}
 					<span class="col-2 text-center text-success px-0">
@@ -101,18 +112,24 @@
 					{% endif %}
 					</span>
 				</div>
-		{% endif %}
-		{% endfor %}
+			
+			{% endif %}
+			{% endfor %}
 		</div>
 	</div>
 
-	<div class="container-fluid py-5 px-0 mb-4">
+	<div class="container-fluid mt-4">
 		<div class="row d-flex justify-content-center mb-0">
+			
 			<button class="btn rounded col-4 m-2 px-1 py-0" onclick="displayElt('bill')">Régler la note</button>
+			
 		</div>
 		<div class="container-fluid p-0" id="bill" style="display: none;">
-			<div class="row d-flex justify-content-center text-muted mb-1">
-				* Les commandes non livrées seront annulées</div>
+			{% if new_data.items_qty %}
+			<div class="d-flex text-muted justify-content-center">
+				<i>vous avez des commmandes en cours</i>
+			</div>
+			{% else %}
 			<div class="row d-flex justify-content-center bg-dark mb-1">
 				{% if not filter_name.filter == 'Table ' %}
 				<div>Montant à régler pour {{ filter_name.name}}:</div>
@@ -141,8 +158,8 @@
 					{% csrf_token %}
 					<button class="btn rounded col-12 m-2 px-1 py-0" onclick="Payment('{{ order_data.total_price}}')">Autre</button>
 				</form>
-
 			</div>
+			{% endif %}
 		</div>
 	</div>
 

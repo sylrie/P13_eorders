@@ -5,6 +5,7 @@ from .models import *
 
 admin.site.register(Table)
 admin.site.register(TableConnect)
+admin.site.register(Payment)
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):

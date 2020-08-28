@@ -1,12 +1,22 @@
 
-function displayElt(id) {
+function displayElt(id, idButton) {
 
     var elt = document.getElementById(id);
-    
+    var button = document.getElementById(idButton)
+
     if (elt.style.display === "none") {
         elt.style.display = "block";
+        if (idButton){
+            button.style.border = 'solid #f14806';
+        }
+        
+
+        
     } else {
         elt.style.display = "none";
+        if (idButton){
+            button.style.border = 'None';
+        }
     }
   }
 

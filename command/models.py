@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import Sum, Count
-from pg_utils import DistinctSum
 from product.models import Product
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -50,6 +49,7 @@ class TableConnect(models.Model):
             )
         )
 
+
 class TableConnectManager(models.Model):
 
     def get_connection_table(self, user):
@@ -57,6 +57,7 @@ class TableConnectManager(models.Model):
         connection = TableConnect.objects.get(user=user, status='on')
         table_number = connection.table.number
         return table_number
+
 
 class Bill(models.Model):
     """ Bill """
@@ -66,12 +67,12 @@ class Bill(models.Model):
     ]
     status = models.CharField(max_length=50, choices=BILL_STATUS, default='open')
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    amount = models.FloatField(default=0)
     date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-date']
 
-    
     def __str__(self):
         return ("Table: {} - Réf: {} - Status: {}".format(
             str(self.table.number),
@@ -80,12 +81,20 @@ class Bill(models.Model):
             )
         )
 
+
 class BillManager(models.Model):
 
     def get_bill(self, table, status):
 
         bill = Bill.objects.get(table=table, status=status)
         return bill
+
+    def amount_update(self, bill, amount):
+
+        new_amount = Bill.objects.get(pk=bill)
+        new_amount.amount += amount
+        new_amount.save()
+
 
 class Command(models.Model):
     """ Command """
@@ -127,21 +136,31 @@ class CommandManager(models.Model):
             price=product.unit_price)
         new.save()
 
+        BillManager().amount_update(bill=bill.id, amount=new.price)
         return new
+
+    def del_order(self, order_id):
+
+        to_cancel = Command.objects.get(id=order_id, status='new')
+
+        BillManager().amount_update(bill=to_cancel.bill.id, amount=-to_cancel.price)
+
+        to_cancel.delete()
+
+        return to_cancel.product
 
     def order_data(self, bill, status=None, user=None):
         
         if status:
             if user:
-                items = Command.objects.filter(user=user, bill=bill, status=status)
+                items = Command.objects.filter(user=user, bill=bill).exclude(status='payed').exclude(status='delivered')
             else:
-                items = Command.objects.filter(bill=bill, status=status)
-        
+                items = Command.objects.filter(bill=bill, status=status).exclude(status='payed').exclude(status='delivered')
         else:
             if user:
-                items = Command.objects.filter(user=user, bill=bill)
+                items = Command.objects.filter(user=user, bill=bill).exclude(status='new').exclude(status='in progress')
             else:
-                items = Command.objects.filter(bill=bill)
+                items = Command.objects.filter(bill=bill).exclude(status='new').exclude(status='in progress')
         
         items_qty = items.exclude(status='payed').aggregate(Count('status'))
         total_price = 0
@@ -154,29 +173,52 @@ class CommandManager(models.Model):
         }
         return order
 
-    def del_order(self, order_id):
-
-        to_cancel = Command.objects.get(id=order_id)
-        to_cancel.delete()
-        return to_cancel.product
-    
     def get_bill_data(self, bill, user=None):
-        #orders = orders.values('product').annotate(total=DistinctSum('qty'))
-        #orders = Command.objects.filter(bill=bill).annotate(total_qty=Count('product')).order_by('-status', 'product')
-        #orders = Command.objects.filter(bill=bill).order_by('-status', 'product', 'qty').annotate(total=('qty'))
+
         if user:
-            orders = Command.objects.filter(user=user, bill=bill).order_by('-status', 'product')
+            orders = Command.objects.filter(user=user, bill=bill).order_by('status', 'product')
         else:
-            orders = Command.objects.filter(bill=bill).order_by('-status', 'product')#.distinct('status', 'product')
+            orders = Command.objects.filter(bill=bill).order_by('status', 'product')#.distinct('status', 'product')
         
         return orders
 
+        
+class Payment(models.Model):
+    """ Payment """
+    MODE = [
+        ('cb', 'Carte bleue'),
+        ('cash', 'liquide'),
+        ('tr', 'Ticket restaurant'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    mode = models.CharField(max_length=50, choices=MODE)
+    date = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        ordering = ['-date']
+
+    def __str__(self):
+        
+        return ("{} - {} - {} - {}".format(
+            str(self.bill.pk),
+            str(self.user),
+            str(self.amount),
+            str(self.mode)
+            )
+        ) 
+
+
+class PaymentManager(models.Model):
+    
     def payment(self, bill, user=None):
         if user:
             try:
                 new = Command.objects.filter(user=user, bill=bill, status='new')
                 new.delete()
-                to_pay = Command.objects.filter(user=user, bill=bill, status='delivered')
+                to_pay = Command.objects.filter(user=user, bill=bill).exclude(status='').exclude(status='payed')
             except:
                 print('hein?')
 
@@ -184,12 +226,8 @@ class CommandManager(models.Model):
             try:
                 new = Command.objects.filter(bill=bill, status='new')
                 new.delete()
-                to_pay = Command.objects.filter(bill=bill, status='delivered')
+                to_pay = Command.objects.filter(bill=bill).exclude(status='').exclude(status='payed')
             except:
                 print('hein?')
         
         to_pay.update(status='payed')
-        
-
-        
-

@@ -1,0 +1,68 @@
+{% extends 'command/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% load static %}
+{% load account %}
+{% block content %}
+
+<section class="page-section ">
+  <div class="container-fluid bg-dark col-10 my-3 p-2">
+    <div class="row d-flex justify-content-center mx-1">
+      <h1>Connexion</h1>
+    </div>
+    <div class="row d-flex justify-content-center text-center mx-1">
+      <p>Tu n'es pas encore inscrit ?
+        <a href="/accounts/signup/">Inscris-toi</a>
+      </p>
+    </div>
+  
+    
+<!--
+<p>Merci d'ouvrir une session avec l'un de vos comptes sociaux. Vous pouvez aussi <a href="/accounts/signup/">ouvrir un compte</a> example.com puis vous connecter ci-dessous :</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    <li>
+      <a title="Facebook" class="socialaccount_provider facebook" 
+        href="/accounts/facebook/login/?process=login">Facebook</a>
+    </li>
+  </ul>
+
+  <div class="login-or">ou</div>
+
+</div>
+
+<div id="fb-root"></div>
+<script id="allauth-facebook-settings" type="application/json">
+{"appId": "470883020250009", "version": "v7.0", "sdkUrl": "//connect.facebook.net/fr_FR/sdk.js", "initParams": {"appId": "470883020250009", "version": "v7.0"}, "loginOptions": {"auth_type": "reauthenticate", "scope": "email", "auth_nonce": "5JcYpowUKEkaGeOUfHae9Zuwo98AmyDy"}, "loginByTokenUrl": "http://127.0.0.1:8000/accounts/facebook/login/token/", "cancelUrl": "http://127.0.0.1:8000/accounts/social/login/cancelled/", "logoutUrl": "http://127.0.0.1:8000/accounts/logout/", "loginUrl": "http://127.0.0.1:8000/accounts/facebook/login/", "errorUrl": "http://127.0.0.1:8000/accounts/social/login/error/", "csrfToken": "CXbz6uoIDHatELjaYFUkVEJINZuKpy26sIIsphrYi6j1IhaXOZFmYCWz0V1kbizg"}
+</script>
+<script type="text/javascript" src="/static/facebook/js/fbconnect.js"></script>-->
+    <div class="row d-flex justify-content-center text-center mx-1">
+
+      <form class="login" method="POST" action="/accounts/login/">
+        <input type="hidden" name="csrfmiddlewaretoken" value="1otBi2kIehBBO675LiDGPkvsOS5K4FUKR90uBPnYTGK9SCYSBCoISiIj1OCkQprU">
+        {% csrf_token %}
+        <p>
+          <label for="id_login"></label>
+          <input type="text" name="login" placeholder="Pseudonyme" autofocus="autofocus" maxlength="150" required id="id_login">
+        </p>
+        <p>
+          <label for="id_password"></label>
+          <input type="password" name="password" placeholder="Mot de passe" required id="id_password">
+        </p>
+        <p>
+          <label for="id_remember">Se souvenir de moi :</label>
+          <input type="checkbox" name="remember" id="id_remember">
+        </p>
+        
+        <!--<a class="button secondaryAction" href="/accounts/password/reset/">Mot de passe oublié ?</a>-->
+        <div class="row d-flex justify-content-center">
+          <button class="btn rounded col-4 m-2 px-1 py-0" type="submit">Connexion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</section>    
+
+{% endblock %}
