@@ -163,7 +163,7 @@ a {
 }
 
 a:hover {
-  color:var(--rigolo);
+  color:var(--biscuit);
   text-decoration: underline;
 }
 
@@ -9604,11 +9604,11 @@ hr.light {
 }
 
 #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
-  color: var(--rigolo);
+  color: var(--rooibos);
 }
 
 #mainNav .navbar-nav .nav-item .nav-link.active {
-  color: var(--rigolo) !important;
+  color: var(--rooibos) !important;
 }
 
 @media (min-width: 992px) {

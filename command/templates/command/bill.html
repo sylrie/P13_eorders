@@ -5,8 +5,11 @@
 
 <section class="page-section h-100">
 	<div class="container-fluid">
-		<div class="row d-flex justify-content-center pb-1">
-			<a href="{% url 'ordering' %}">Retour au menu</a>	
+		<div class="row d-flex  pb-1 px-3">
+			<a href="{% url 'ordering' %}">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Menu</span>
+			</a>	
 		</div>
 
 		<div class="row d-flex justify-content-center pb-1">
@@ -32,9 +35,9 @@
 
 	<div class="container-fluid ">
 		<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
-			<div class="col-3 text-center"><strong>{{ new_data.items_qty }}</strong></div>
-			<button class="btn rounded col-4 m-2 px-1 py-0" onclick="displayElt('new_orders')">Nouvelle(s)</button>
-			<div class="col-3 text-center"><strong>{{ new_data.total_price|floatformat:2 }} €</strong></div>
+			<div class="col-4 text-center"><strong>{{ new_data.items_qty }}</strong></div>
+			<button class="btn rounded col-4 my-2 px-1 py-0" onclick="displayElt('new_orders')">Nouvelle(s)</button>
+			<div class="col-4 text-center"><strong>{{ new_data.total_price|floatformat:2 }} €</strong></div>
 		</div>
 
 		<div class="container-fluid p-0" id="new_orders"  style="display: block;">
@@ -42,12 +45,12 @@
 			{% if line.status == 'new' or line.status == 'in progress' %}
 				<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
 					
-					<div class="col-1 px-2 text-right">
+					<div class="col-1 px-2 text-center">
 						{% if line.status == 'new' %}
-						<form action="{% url 'ordering' %}?del-product-bill={{ line.id }}" id="ordering-form" method="post">
-						  {% csrf_token %}
-						  <button class="btn rounded w-100 mx-2 my-1">X</button>
-						</form>
+						<a href="{% url 'ordering' %}?del-product-bill={{ line.id }}">
+
+							<i class="far fa-trash-alt py-1"></i>
+						</a>
 						{% endif %}
 					</div>
 					
@@ -73,14 +76,14 @@
 		</div>
 	</div>
 
-	<div class="container-fluid p-0">
+	<div class="container-fluid">
 		<div class="row d-flex justify-content-center align-items-center bg-dark mb-1">
-			<div class="col-3 text-center"><strong>{{ order_data.items_qty }}</strong></div>
-			<button class="btn rounded col-4 m-2 px-1 py-0"  onclick="displayElt('delivered_orders')">Livrée(s)</button>
-			<div class="col-3 text-center"><strong>{{ order_data.total_price|floatformat:2 }} €</strong></div>
+			<div class="col-4 text-center"><strong>{{ order_data.items_qty }}</strong></div>
+			<button class="btn rounded col-4 my-2 px-1 py-0"  onclick="displayElt('delivered_orders')">Livrée(s)</button>
+			<div class="col-4 text-center"><strong>{{ order_data.total_price|floatformat:2 }} €</strong></div>
 		</div>
 
-		<div class="container-fluid " id="delivered_orders" style="display: none;">
+		<div class="container-fluid p-0" id="delivered_orders" style="display: none;">
 			{% for line in bill_data %}
 			{% if line.status == 'payed' or line.status == 'delivered' %}
 				{% if line.status == 'payed' %}
@@ -126,8 +129,8 @@
 		</div>
 		<div class="container-fluid p-0" id="bill" style="display: none;">
 			{% if new_data.items_qty %}
-			<div class="d-flex text-muted justify-content-center">
-				<i>vous avez des commmandes en cours</i>
+			<div class="d-flex text-muted text-center justify-content-center">
+				<i>Vous avez des commmandes en cours</i>
 			</div>
 			{% else %}
 			<div class="row d-flex justify-content-center bg-dark mb-1">

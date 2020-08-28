@@ -30,11 +30,10 @@
       </div>
       
       {% if order_id %}
-      <div class="d-flex col-2 justify-content-end px-2">
-        <form action="{% url 'ordering' %}?del-product={{ order_id.id }}" id="ordering-form" method="post">
-          {% csrf_token %}
-          <button class="btn rounded m-2 p-1" input type="post">X</button>
-        </form>
+      <div class="d-flex col-2 align-items-center justify-content-end px-2">
+        <a href="{% url 'ordering' %}?del-product={{ order_id.id }}">
+          <i class="far fa-trash-alt py-1"></i>
+        </a>
       </div>
       {% endif %} 
     </div>
@@ -44,7 +43,7 @@
   <div class="container-fluid">
     <div class="row d-flex justify-content-around">   
     {% for family in menu.family %}
-      <div class="d-flex col-3 p-0  m-1 bg-dark justify-content-center text-center align-items-center"
+      <div class="d-flex col-3 p-0 m-1 rounded bg-dark justify-content-center text-center align-items-center"
         style="height:55px;" id='{{ family }}button' onclick="displayElt('{{ family }}','{{ family }}button')"><strong><i>{{ family }}</i></strong>
       </div>
     {% endfor %}
@@ -80,10 +79,9 @@
         </div>
 
         <div class="d-flex col-1 p-0 justify-content-center">
-          <form action="{% url 'ordering' %}?add-product={{ product.name }}" id="ordering-form" method="post">
-            {% csrf_token %}
-            <button class="btn rounded m-2 p-1">+</button>
-          </form>
+          <a href="{% url 'ordering' %}?add-product={{ product.name }}">
+            <i class="fas fa-plus-circle" method="post"></i>
+          </a>
         </div>
       </div>
       <div class="row w-100"></div>

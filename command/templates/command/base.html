@@ -50,30 +50,26 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto text-right align-items-end my-2 my-lg-0">
+          <ul class="navbar-nav ml-auto text-right my-2 my-lg-0">
 
             {% if user.is_authenticated %}
-            <li class="nav-item">
-              <i class="fas fa-user"><strong> {% user_display user %}</strong></i>
+            <li class="nav-item p-2">
+              <i class="fas fa-user" style="text-transform: capitalize;"><strong> {% user_display user %}</strong></i>
             </li>
             {% endif %}
 
             {% if table %}
-            <li class="nav-item">
+            <li class="nav-item p-2">
               <i class="fas fa-chair"> N° <strong> {{ table }}</strong></i>
             </li>
-            <li class="nav-item">
+            <li class="nav-item p-2">
               <i class="fas fa-key"><strong> {{ code }}</strong></i>  
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'get_bill' %}">
-                <i class="fas fa-user" title="Se Connecter"></i>
-              </a>
-            </li>
+            
             {% endif %}
 
             {% if user.is_superuser %}
-            <li class="nav-item">
+            <li class="nav-item p-2">
               <a class="nav-link" href="/admin/">
                 <i class="fas fa-tools" title="Administrateur"></i>
               </a>
