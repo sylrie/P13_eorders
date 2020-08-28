@@ -8,7 +8,7 @@ CSS FILES FOR PUR BEURRE PLATFORM
     --biscuit: #E8A75D;
     --moules: #f14806;
     --moules-light: rgba(52, 90, 97, 0.8);
-    --rigolo: #86EBE6;
+    --light: #dbdddd;
     --caramel: #696767;
     --rooibos: #C45525;
     --font-family: "Scope One", sans-serif;
@@ -20,6 +20,7 @@ body {
     text-shadow: 0.5px 0.5px 0.5px rgba(0,0,0, 1);
     font-size: 1.2rem;
     font-weight: bold;
+    color: var(--light);
 }
 h1, h2, h3, h4, h5 {
   font-family: "Open Sans", sans-serif;

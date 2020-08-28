@@ -35,9 +35,9 @@
 
 	<div class="container-fluid ">
 		<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
-			<div class="col-4 text-center"><strong>{{ new_data.items_qty }}</strong></div>
+			<div class="col-4 text-center text-muted">{{ new_data.items_qty }}</div>
 			<button class="btn rounded col-4 my-2 px-1 py-0" onclick="displayElt('new_orders')">Nouvelle(s)</button>
-			<div class="col-4 text-center"><strong>{{ new_data.total_price|floatformat:2 }} €</strong></div>
+			<div class="col-4 text-center text-muted">{{ new_data.total_price|floatformat:2 }} €</div>
 		</div>
 
 		<div class="container-fluid p-0" id="new_orders"  style="display: block;">
@@ -78,9 +78,9 @@
 
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-center align-items-center bg-dark mb-1">
-			<div class="col-4 text-center"><strong>{{ order_data.items_qty }}</strong></div>
+			<div class="col-4 text-center text-muted">{{ order_data.items_qty }}</div>
 			<button class="btn rounded col-4 my-2 px-1 py-0"  onclick="displayElt('delivered_orders')">Livrée(s)</button>
-			<div class="col-4 text-center"><strong>{{ order_data.total_price|floatformat:2 }} €</strong></div>
+			<div class="col-4 text-center text-muted">{{ order_data.total_price|floatformat:2 }} €</div>
 		</div>
 
 		<div class="container-fluid p-0" id="delivered_orders" style="display: none;">

@@ -30,7 +30,7 @@
       </div>
       
       {% if order_id %}
-      <div class="d-flex col-2 align-items-center justify-content-end px-2">
+      <div class="d-flex col-2 justify-content-end px-2">
         <a href="{% url 'ordering' %}?del-product={{ order_id.id }}">
           <i class="far fa-trash-alt py-1"></i>
         </a>
@@ -80,7 +80,7 @@
 
         <div class="d-flex col-1 p-0 justify-content-center">
           <a href="{% url 'ordering' %}?add-product={{ product.name }}">
-            <i class="fas fa-plus-circle" method="post"></i>
+            <i class="fas fa-plus-circle"></i>
           </a>
         </div>
       </div>
