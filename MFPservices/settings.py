@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     
     #socialaccount
-    'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.facebook',
 ]
 
 SITE_ID = 1
@@ -84,14 +84,14 @@ LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 # Provider specific settings
-SOCIALACCOUNT_PROVIDERS = {
+"""SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email'], 
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'METHOD': 'oauth2',
         'VERIFIED_EMAIL': False 
     }
-}
+}"""
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -197,3 +197,4 @@ if os.environ.get('ENV') == 'PRODUCTION':
     DATABASES['default'].update(db_from_env)
 
 django_heroku.settings(locals())
+
