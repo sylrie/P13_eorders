@@ -1,0 +1,30 @@
+{% extends 'command/base.html' %}
+{% block title %}Déconnexion{% endblock %}
+{% load static %}
+{% load account %}
+{% block content %}
+
+<section class="page-section ">   
+  <div class="container-fluid bg-dark rounded col-10 my-3 p-2">
+    <div class="row d-flex justify-content-center mx-1">
+      <h1><strong>Déconnection</strong></h1>
+    </div>
+    <div class="text-center mb-4">
+      <img src="{% static 'command/img/nav/logo_monpetitbar.png' %}" alt="" style="max-height: 130px;">
+    </div>
+    <div class="row d-flex justify-content-center text-center mx-1">
+      <p>Etes-vous sûr(e) de vouloir vous déconnecter ?</p>
+    </div>
+    <div class="row d-flex justify-content-center text-center pb-2 mx-1">
+      <a href="/"> Retour</a>
+    </div>
+    <div class="row d-flex justify-content-center text-center mx-1">
+      <form method="post" action="/accounts/logout/">
+        {% csrf_token %}  
+        <button class="btn rounded  m-2 px-1 py-0" type="submit">Se Déconnecter</button>
+      </form>
+    </div>
+  </div>
+</section> 
+
+{% endblock %}

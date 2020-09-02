@@ -7,10 +7,10 @@
 <section class="page-section ">
   <div class="container-fluid bg-dark rounded col-10 my-3 p-2">
     <div class="row d-flex justify-content-center mx-1">
-      <h1>Connexion</h1>
+      <h1><strong>Connexion</strong></h1>
     </div>
     <div class="text-center mb-4">
-      <img src="{% static 'command/img/nav/logo_monpetitbar.png' %}" alt="" style="max-height: 90px;">
+      <img src="{% static 'command/img/nav/logo_monpetitbar.png' %}" alt="" style="max-height: 130px;">
     </div>
     <div class="row d-flex justify-content-center text-center mx-1">
       <p>Pas encore inscrit ?
@@ -19,17 +19,16 @@
     </div>
   
     
-<!--
+<!-- Social Accounts (Disabled)
 <p>Merci d'ouvrir une session avec l'un de vos comptes sociaux. Vous pouvez aussi <a href="/accounts/signup/">ouvrir un compte</a> example.com puis vous connecter ci-dessous :</p>
+  <div class="socialaccount_ballot">
 
-<div class="socialaccount_ballot">
-
-  <ul class="socialaccount_providers">
-    <li>
-      <a title="Facebook" class="socialaccount_provider facebook" 
-        href="/accounts/facebook/login/?process=login">Facebook</a>
-    </li>
-  </ul>
+    <ul class="socialaccount_providers">
+      <li>
+        <a title="Facebook" class="socialaccount_provider facebook" 
+          href="/accounts/facebook/login/?process=login">Facebook</a>
+      </li>
+    </ul>
 
   <div class="login-or">ou</div>
 
@@ -40,10 +39,10 @@
 {"appId": "470883020250009", "version": "v7.0", "sdkUrl": "//connect.facebook.net/fr_FR/sdk.js", "initParams": {"appId": "470883020250009", "version": "v7.0"}, "loginOptions": {"auth_type": "reauthenticate", "scope": "email", "auth_nonce": "5JcYpowUKEkaGeOUfHae9Zuwo98AmyDy"}, "loginByTokenUrl": "http://127.0.0.1:8000/accounts/facebook/login/token/", "cancelUrl": "http://127.0.0.1:8000/accounts/social/login/cancelled/", "logoutUrl": "http://127.0.0.1:8000/accounts/logout/", "loginUrl": "http://127.0.0.1:8000/accounts/facebook/login/", "errorUrl": "http://127.0.0.1:8000/accounts/social/login/error/", "csrfToken": "CXbz6uoIDHatELjaYFUkVEJINZuKpy26sIIsphrYi6j1IhaXOZFmYCWz0V1kbizg"}
 </script>
 <script type="text/javascript" src="/static/facebook/js/fbconnect.js"></script>-->
+
     <div class="row d-flex justify-content-center text-center mx-1">
 
       <form class="login" method="POST" action="/accounts/login/">
-        <input type="hidden" name="csrfmiddlewaretoken" value="1otBi2kIehBBO675LiDGPkvsOS5K4FUKR90uBPnYTGK9SCYSBCoISiIj1OCkQprU">
         {% csrf_token %}
         <p>
           <label for="id_login"></label>

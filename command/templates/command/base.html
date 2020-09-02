@@ -54,8 +54,12 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item p-2">
-              <i class="fas fa-user" style="text-transform: capitalize;"><strong> {% user_display user %}</strong></i>
+              <a class="nav-link" href="/accounts/logout/">
+                <i class="fas fa-sign-out-alt" type="submit" title="Se déconnecter"></i>
+              </a>
             </li>
+
+            
             {% endif %}
 
             {% if table %}
@@ -73,6 +77,7 @@
               <a class="nav-link" href="/admin/">
                 <i class="fas fa-tools" title="Administrateur"></i>
               </a>
+            </li>
             {% endif %}
 
            
