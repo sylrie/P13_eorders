@@ -77,7 +77,6 @@
             <div class="text-right m-1"><strong>{{ product.unit_price|floatformat:2 }} €</strong></div>
           </div>
         </div>
-
         <div class="d-flex col-1 p-0 justify-content-center">
           <a href="{% url 'ordering' %}?add-product={{ product.name }}">
             <i class="fas fa-plus-circle"></i>
