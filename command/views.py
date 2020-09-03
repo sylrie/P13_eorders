@@ -140,7 +140,7 @@ class OrderManager():
                     )
                     self.order_id = None
                 except:
-                    self.error = "La commande à déjà été prise en compte"
+                    self.error = "La commande à déjà été prise en compte ou supprimée"
         
         if request.GET.get('del-product-bill'):
             return self.get_bill(request)
