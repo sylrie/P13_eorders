@@ -9,6 +9,7 @@ function displayElt(id, idButton) {
         if (idButton){
             button.style.border = 'solid #f14806';
         }
+        elt.scrollIntoView({block: "end"});
         
     } else {
         elt.style.display = "none";
