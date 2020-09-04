@@ -86,18 +86,20 @@ class OrderManager():
             try:
                 self.table = TableConnectManager().get_connection_table(user=self.user)
             except:
-                return index(request)
+                pass
         else:
             return redirect('login')
             
         if self.table:
             code = Table.objects.get(number=self.table)
             self.code = code.code
-            try:
-                self.bill = BillManager().get_bill(table=self.table, status='open')
-            except:
-                self.message = "Vous devez vous connecter à une table"
-                return index(request, error=self.message)
+            self.bill = BillManager().get_bill(table=self.table, status='open')
+        
+        else:
+            return index(request)
+            
+       
+            
    
     def ordering(self, request):
         self.get_data(request)
@@ -121,7 +123,7 @@ class OrderManager():
                 self.message = "+ {}".format(self.product.name)
                 
             except:
-                self.message = "Oups, la commande n'est pas passée ^^"
+                self.message = "Vous devez être connecté(e) à une table"
                
                 return index(request, error=self.message)
 
@@ -147,8 +149,10 @@ class OrderManager():
             return self.get_bill(request)
       
         else:
+            
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(user=self.user, bill=self.bill)
+            
             self.calls = CallManager().get_calls(table=self.table)
 
             context = {

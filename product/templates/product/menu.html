@@ -1,27 +1,90 @@
-<div>
-    
-    {% for family in family %}
-    <h3>{{ family }}</h3>
-    
-        {% for product in menu %}
-        {% if product.family == family%}
+{% extends 'command/base.html' %}
+{% block title %}MonP'tiBar - Menu{% endblock %}
+{% load static %}
+{% block content %}
 
-        <div>
-            <tr>
 
-                <td> - <span>0</span> + </td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.details }}</td>
-                <td><strong>{{ product.unit_price }} €</td></strong>
-                
-            </tr>
-        </div>
-
-        {% endif %}
-        {% endfor %}
-
+<section class="page-section h-100">
+    <div class="row d-flex justify-content-center text-center text-warning mx-1">
+        <a href="{% url 'index' %}"><i>>> Commander <<</i></a>
+      </div>
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-around">   
+    {% for family in menu.family %}
+      <div class="d-flex col-3 p-0 m-1 rounded bg-dark justify-content-center text-center align-items-center"
+        style="height:55px;" id='{{ family }}button' onclick="displayManager('{{ family }}','{{ family }}button')">
+        <strong><i>{{ family }}</i></strong>
+      </div>
     {% endfor %}
-
+    </div>
   </div>
   
-  <button>Valider</button>
+  <div class="family container-fluid" id="others" style="display: none;">
+    <div class="menu row d-flex justify-content-center text-center bg-dark my-3">
+  {% for call in menu.calls %}
+      <div class="row d-flex col-12 p-0 align-items-center border-bottom">
+        <div class="d-flex col-10 p-0 justify-content-start align-items-center ">
+          <div class="col-10 p-1">
+            <div class="text-left m-1">
+              <strong>{{ call.name }}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex col-2 p-0 justify-content-center" onclick="loadingGif()">
+          <a href="{% url 'calling' %}?call={{ call.name }}">
+            <i class="fas fa-plus-circle"></i>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+  {% for family in menu.family %}
+  
+  <div class="family container-fluid" id="{{ family }}" style="display: none;">
+
+    <div class="menu row d-flex justify-content-center text-center bg-dark my-3">
+      
+      <div>
+        <h4 class="p-0"><strong>{{ family }}</strong></h4>
+      </div>
+      <div class="row w-100"></div>
+  
+      {% for product in menu.menu %}
+      {% if product.family == family %}
+      
+      <div class="row d-flex col-12 p-0 align-items-center border-bottom">
+        <div class="d-flex col-12 p-0 justify-content-start align-items-center ">
+          <div class="col-8 p-1">
+            <div class="text-left m-1">
+              <strong>{{ product.name }}</strong>
+            </div>
+          </div>
+
+          <div class="col-4 p-1">
+            <div class="text-right m-1"><strong>{{ product.unit_price|floatformat:2 }} €</strong></div>
+          </div>
+          
+        </div>
+
+        {% if product.details %}
+        <div class="container-fluid">
+          <div class="row d-flex text-left text-muted px-2">
+            {{ product.details }}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <div class="row w-100"></div>
+      {% endif %}
+      {% endfor %}
+      
+      
+    </div>
+  </div>
+  {% endfor %}
+  
+</section>
+
+{% endblock %}
