@@ -172,13 +172,13 @@ class OrderManager():
 
         if request.GET.get('call'):
             name = request.GET.get("call")
-            print(name)
+
             try:
                 CallManager().new_call(table=self.table, name=name)
-                self.message = "Un membre de l'équipe vas venir -{}-".format(name)
+                
             except Exception as e:
                 print(e)
-                self.message = "la demande n'est pas passée"
+            
         if request.GET.get('del-call'):
             call_id = request.GET.get("del-call")
             try:
