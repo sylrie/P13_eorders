@@ -1,4 +1,5 @@
 function displayManager(id, idButton) {
+    
     const eltList = [
         'others',
         'Tapas',
@@ -10,7 +11,6 @@ function displayManager(id, idButton) {
     ]
 
     eltList.forEach(function(item) {
-        console.log(item)
         
         var elt = document.getElementById(item);
         var buttonName = item+'button'
@@ -53,3 +53,19 @@ function Payment(amount, type) {
     }
     
 }
+
+function loadingGif(){
+    
+    let elt = $("#loading")[0];
+   
+      
+    var newA = elt.appendChild(document.createElement("a"));
+    newA.id ="searching";
+
+    var newImg = newA.appendChild(document.createElement("img"));
+    newImg.src = "../static/command/img/loader.gif";
+    newImg.setAttribute("style", "max-height:70px;")
+    window.scrollTo(0,document.body.scrollHeight);
+    
+    
+  };

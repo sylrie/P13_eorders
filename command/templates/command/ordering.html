@@ -16,6 +16,9 @@
         <button class="btn rounded px-3 mx-2 " >Voir la note</button>
       </form>
     </div>
+    <div class="row d-flex justify-content-center text-center" id="loading">
+      
+    </div>
     {% if error %}
     <div class="row d-flex justify-content-center text-center">
       <div class="row alert alert-warnig justify-content-center w-100">
@@ -30,7 +33,7 @@
       </div>
       
       {% if order_id %}
-      <div class="d-flex col-2 justify-content-end px-2">
+      <div class="d-flex col-2 justify-content-end px-2" onclick="loadingGif()">
         <a href="{% url 'ordering' %}?del-product={{ order_id.id }}">
           <i class="far fa-trash-alt py-1"></i>
         </a>
@@ -65,7 +68,7 @@
     {% endfor %}
     
       <div class="d-flex col-5 p-0 m-1 justify-content-center text-center text-muted align-items-center"
-        style="height:30px;" id='othersbutton' onclick="displayElt('others','othersbutton')">
+        style="height:30px;" id='othersbutton' onclick="displayManager('others','othersbutton')">
         <i>Autre chose ?</i>
       </div>
     </div>
@@ -82,7 +85,7 @@
             </div>
           </div>
         </div>
-        <div class="d-flex col-2 p-0 justify-content-center">
+        <div class="d-flex col-2 p-0 justify-content-center" onclick="loadingGif()">
           <a href="{% url 'calling' %}?call={{ call.name }}">
             <i class="fas fa-plus-circle"></i>
           </a>
@@ -122,7 +125,7 @@
           
         </div>
 
-        <div class="d-flex col-2 p-0 justify-content-center">
+        <div class="d-flex col-2 p-0 justify-content-center" onclick="loadingGif()">
           <a href="{% url 'ordering' %}?add-product={{ product.name }}">
             <i class="fas fa-plus-circle"></i>
           </a>
