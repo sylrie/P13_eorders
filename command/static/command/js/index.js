@@ -3,7 +3,7 @@ function displayManager(id, idButton) {
         'others',
         'Tapas',
         'Plats',
-        'Boisson chaudes',
+        'Boissons chaudes',
         'Softs',
         'Bières',
         'Vins'

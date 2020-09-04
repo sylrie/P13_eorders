@@ -150,29 +150,8 @@ strong {
     2px 2px 0.5rem rgba(0,0,0, 0.3);
     
 }
-#connection, #legals, #profile {
-    background: url("../img/bg-masthead.jpg");
-    color: var(--moules);
-    text-overflow: ellipsis;
-    overflow: auto;
-}
-#connection {
-  padding-top: 90px;
-}
-#profile {
-  background: url("../img/portfolio/remy-3.jpg");
-  color: var(--caramel);
-}
-#logout {
-  background: url("../img/ratatouille-11.jpg");
-  color: var(--caramel);
-}
-#logout, #profile, #connection, #legals {
-  background-position: top;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
+
+
 
 #contact {
     background-color: var(--rooibos);
