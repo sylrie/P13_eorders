@@ -48,7 +48,7 @@
           <span class="text-info">Un membre de l'équipe vas venir <strong>>>{{ call.name }}</strong><span>
         </div>
       
-        <div class="d-flex col-2 justify-content-end px-2">
+        <div class="d-flex col-2 justify-content-end px-2" onclick="loadingGif()">
           <a href="{% url 'calling' %}?del-call={{ call.id }}">
             <i class="far fa-trash-alt py-1"></i>
           </a>

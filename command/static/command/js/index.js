@@ -57,7 +57,7 @@ function Payment(amount, type) {
 function loadingGif(){
     
     let elt = $("#loading")[0];
-   
+    elt.scrollIntoView();
       
     var newA = elt.appendChild(document.createElement("a"));
     newA.id ="searching";
@@ -65,7 +65,7 @@ function loadingGif(){
     var newImg = newA.appendChild(document.createElement("img"));
     newImg.src = "../static/command/img/loader.gif";
     newImg.setAttribute("style", "max-height:70px;")
-    window.scrollTo(0,document.body.scrollHeight);
+    
     
     
   };
