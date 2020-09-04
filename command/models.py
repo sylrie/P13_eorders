@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Sum, Count
-from product.models import Product
+from product.models import Product, StaffCall
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -142,12 +142,14 @@ class CommandManager(models.Model):
     def del_order(self, order_id):
 
         to_cancel = Command.objects.get(id=order_id, status='new')
-
+        
+        
         BillManager().amount_update(bill=to_cancel.bill.id, amount=-to_cancel.price)
 
         to_cancel.delete()
-
         return to_cancel.product
+       
+        
 
     def order_data(self, bill, status=None, user=None):
         
@@ -182,7 +184,45 @@ class CommandManager(models.Model):
         
         return orders
 
-        
+class Call(models.Model):
+    
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    name = models.ForeignKey(StaffCall, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return ("Table {} - {} - {}".format(
+            str(self.table.number),
+            str(self.name),
+            str(self.active)
+            )
+        )
+
+class CallManager(models.Model):
+
+    def new_call(self, table, name):
+        call_name = StaffCall.objects.get(name=name)
+        call_table = Table.objects.get(pk=table)
+        new = Call.objects.create(
+            table=call_table,
+            name=call_name)
+        new.save()
+
+    def del_call(self, call_id):
+        to_cancel = Call.objects.get(id=call_id)
+        to_cancel.delete()
+
+    def get_calls(self, table):
+        call_table = Table.objects.get(pk=table)
+        calls = Call.objects.filter(table=call_table, active=True)
+        return calls
+
+    def close_call(self, call):
+        to_close = Call.objects.get(pk=call)
+        to_close.active = False
+        to_close.save()
+
 class Payment(models.Model):
     """ Payment """
     MODE = [

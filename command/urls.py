@@ -11,6 +11,7 @@ urlpatterns = [
     path('command/ordering', views.OrderManager().ordering, name='ordering'),
     path('command/ordering_add', views.OrderManager().ordering, name='ordering_add'),
     path('command/ordering_del', views.OrderManager().ordering, name='ordering'),
+    path('command/calling', views.OrderManager().calling, name='calling'),
     path('command/get_bill', views.OrderManager().get_bill, name='get_bill'),
     path('command/pay_bill', views.OrderManager().pay_bill, name='pay_bill'),
 

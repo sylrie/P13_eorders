@@ -6,7 +6,7 @@ from .models import *
 admin.site.register(ProductFamily)
 admin.site.register(ProductCategory)
 admin.site.register(ProductTaxe)
-#admin.site.register(Product)
+admin.site.register(StaffCall)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):

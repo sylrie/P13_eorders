@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Table, TableConnect, Bill, TableConnectManager, BillManager, CommandManager, PaymentManager
+from .models import *
 from product.models import ProductManager
 from .scripts import table_connection, closing_table
 from .forms import JoinTable, PayBill
@@ -107,7 +107,8 @@ class OrderManager():
         self.order_data = None
         self.new_data = None
         self.family = None
-        self.error = None       
+        self.error = None
+        self.calls = None
 
         if request.GET.get('add-product'):
             product = request.GET.get("add-product")
@@ -129,7 +130,7 @@ class OrderManager():
             if request.GET.get('del-product'):
                 self.order_id = request.GET.get('del-product')
 
-            else:
+            if request.GET.get('del-product-bill'):
                 self.order_id = request.GET.get('del-product-bill')
                 
             if self.order_id:
@@ -148,12 +149,14 @@ class OrderManager():
         else:
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(user=self.user, bill=self.bill)
-            
+            self.calls = CallManager().get_calls(table=self.table)
+
             context = {
                 'message': self.message,
                 'error': self.error,
                 'table': self.table,
                 'code': self.code,
+                'calls': self.calls,
                 'bill': self.bill,
                 'menu': self.menu,
                 'order_id': self.order_id,
@@ -164,6 +167,26 @@ class OrderManager():
             
             return render(request, 'command/ordering.html', context)
     
+    def calling(self,request):
+        self.get_data(request)
+
+        if request.GET.get('call'):
+            name = request.GET.get("call")
+            print(name)
+            try:
+                CallManager().new_call(table=self.table, name=name)
+                self.message = "Un membre de l'équipe vas venir -{}-".format(name)
+            except Exception as e:
+                print(e)
+                self.message = "la demande n'est pas passée"
+        if request.GET.get('del-call'):
+            call_id = request.GET.get("del-call")
+            try:
+                CallManager().del_call(call_id=call_id)
+            except Exception as e:
+                print(e)
+        return redirect('ordering')
+
     def get_bill(self, request):
         self.get_data(request)
         self.filter_name = {

@@ -5,5 +5,5 @@
 ![Version-1](https://img.shields.io/badge/Version-1-blue.svg)
 
 <p align="center">
-  <img width=60% src="https://github.com/sylrie/P13_eorders/blob/master/QRcodes/accueil.png">
+  <img width=40% src="https://github.com/sylrie/P13_eorders/blob/master/QRcodes/accueil.png">
 </p>

@@ -1,3 +1,29 @@
+function displayManager(id, idButton) {
+    const eltList = [
+        'others',
+        'Tapas',
+        'Plats',
+        'Boisson chaudes',
+        'Softs',
+        'Bières',
+        'Vins'
+    ]
+
+    eltList.forEach(function(item) {
+        console.log(item)
+        
+        var elt = document.getElementById(item);
+        var buttonName = item+'button'
+        var button = document.getElementById(buttonName)
+
+        if (elt.style.display === "block") {
+            elt.style.display = "none";
+            button.style.border = 'None';
+        }    
+        else {}
+    })
+    displayElt(id, idButton)
+}
 
 function displayElt(id, idButton) {
 

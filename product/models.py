@@ -54,9 +54,11 @@ class ProductManager(models.Model):
             family.append(name)
         items = Product.objects.filter(avaiable=True).order_by('category', 'family', 'unit_price')
 
+        calls = StaffCall.objects.all()
         menu = {
             'category': category,
             'family': family,
+            'calls': calls,
             'menu': items
         }
 
@@ -65,3 +67,10 @@ class ProductManager(models.Model):
     def get_product(self, name):
         product = Product.objects.get(name=name)
         return product
+
+class StaffCall(models.Model):
+    
+    name = models.CharField(max_length=500, primary_key=True, unique=True)
+    
+    def __str__(self):
+        return str(self.name)
