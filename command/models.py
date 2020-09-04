@@ -214,20 +214,4 @@ class Payment(models.Model):
 class PaymentManager(models.Model):
     
     def payment(self, bill, user=None):
-        if user:
-            try:
-                new = Command.objects.filter(user=user, bill=bill, status='new')
-                new.delete()
-                to_pay = Command.objects.filter(user=user, bill=bill).exclude(status='').exclude(status='payed')
-            except:
-                print('hein?')
-
-        else:
-            try:
-                new = Command.objects.filter(bill=bill, status='new')
-                new.delete()
-                to_pay = Command.objects.filter(bill=bill).exclude(status='').exclude(status='payed')
-            except:
-                print('hein?')
-        
-        to_pay.update(status='payed')
+        pass

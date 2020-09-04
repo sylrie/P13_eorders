@@ -29,7 +29,7 @@
 
 		<div class="row d-flex justify-content-between align-items-center py-2">
 			<span class="col-5 text-center">Nombre d'article: <strong>{{ order_data.items_qty|add:new_data.items_qty }}</strong></span>
-			<span class="col-5 text-center">Note: <strong>{{ order_data.total_price|add:new_data.total_price|floatformat:2 }} €</strong></span>
+			<span class="col-5 text-center">Note: <strong>{{ bill_amount|floatformat:2 }} €</strong></span>
 		</div>
 	</div>
 
@@ -128,11 +128,7 @@
 			
 		</div>
 		<div class="container-fluid p-0" id="bill" style="display: none;">
-			{% if new_data.items_qty %}
-			<div class="d-flex text-muted text-center justify-content-center">
-				<i>Vous avez des commmandes en cours</i>
-			</div>
-			{% else %}
+			
 			<div class="row d-flex justify-content-center bg-dark mb-1">
 				{% if not filter_name.filter == 'Table ' %}
 				<div>Montant à régler pour {{ filter_name.name}}:</div>
@@ -140,7 +136,7 @@
 				<div>Montant à régler pour la Table {{ filter_name.name}}:</div>
 				{% endif %}
 				<div class="row w-100"></div>
-				<span id="amount" name="amount" form="payment-form"><strong>{{ order_data.total_price|floatformat:2 }} €</strong></span>
+				<span id="amount" name="amount" form="payment-form"><strong>{{ bill_amount|floatformat:2 }} €</strong></span>
 			</div>
 			<div class="row d-flex justify-content-center bg-dark mb-1">
 				<div>Souhaitez-vous laisser un pour boire ?</div>
@@ -156,13 +152,13 @@
 				</div>
 			</div>
 			<div class="row d-flex justify-content-center bg-dark mb-1">
-				<button class="btn rounded col-4 m-2 px-1 py-0" onclick="Payment('{{ order_data.total_price}}', 'cb')">Par CB</button>
+				<button class="btn rounded col-4 m-2 px-1 py-0" onclick="Payment('{{ bill_amount|floatformat:2 }}', 'cb')">Par CB</button>
 				<form class="col-4 m-0 p-0" action="{% url 'pay_bill' %}?payment-data={{ filter_name.name }}" method="post">
 					{% csrf_token %}
-					<button class="btn rounded col-12 m-2 px-1 py-0" onclick="Payment('{{ order_data.total_price}}')">Autre</button>
+					<button class="btn rounded col-12 m-2 px-1 py-0" onclick="Payment('{{ bill_amount|floatformat:2 }}')">Autre</button>
 				</form>
 			</div>
-			{% endif %}
+			
 		</div>
 	</div>
 

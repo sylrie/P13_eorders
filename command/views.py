@@ -182,12 +182,13 @@ class OrderManager():
                 "name": filter_name.capitalize(),
                 "filter": 'Client  '
             }
+            
         
         else:
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(bill=self.bill)
             self.bill_data =CommandManager().get_bill_data(bill=self.bill)
-        
+        self.bill_amount = BillManager().get_bill(table=self.table, status='open')
         context = {
             'bill_data': self.bill_data,
             'user':self.user,
@@ -196,6 +197,7 @@ class OrderManager():
             'filter_name': self.filter_name,
             'table': self.table,
             'code': self.code,
+            'bill_amount': self.bill_amount.amount,
         }   
         return render(request, 'command/bill.html', context)
 
