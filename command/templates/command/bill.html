@@ -132,10 +132,13 @@
 				Comment souhaitez-vous régler ?
 			</div>
 			<div class="row d-flex align-items-stretch justify-content-around bg-dark mb-1">
-				<button class="btn rounded col-4 m-2 px-1 py-0" >Autre</button>
+				<form class="d-flex align-items-stretch col-4 m-0 p-0" action="{% url 'calling' %}?call=Régler la note"  method="post">
+				{% csrf_token %}
+				<button class="btn rounded col-12 m-2 px-1 py-0 ">Autre</button>
+				</form>	
 				<form class="d-flex align-items-stretch col-4 m-0 p-0" action="{% url 'pay_bill' %}?payment-data={{ filter_name.name }}" method="post">
-					{% csrf_token %}
-					<button class="btn rounded col-12 m-2 px-1 py-0 ">En Ligne (CB)</button>
+				{% csrf_token %}
+				<button class="btn rounded col-12 m-2 px-1 py-0 ">En Ligne</button>
 				</form>
 			</div>
 			

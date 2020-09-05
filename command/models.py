@@ -204,10 +204,12 @@ class CallManager(models.Model):
     def new_call(self, table, name):
         call_name = StaffCall.objects.get(name=name)
         call_table = Table.objects.get(pk=table)
-        new = Call.objects.create(
-            table=call_table,
-            name=call_name)
-        new.save()
+        exist_call = Call.objects.filter(table=call_table, name=call_name)
+        if not exist_call:
+            new = Call.objects.create(
+                table=call_table,
+                name=call_name)
+            new.save()
 
     def del_call(self, call_id):
         to_cancel = Call.objects.get(id=call_id)

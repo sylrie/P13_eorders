@@ -189,7 +189,11 @@ class OrderManager():
                 CallManager().del_call(call_id=call_id)
             except Exception as e:
                 print(e)
-        return redirect('ordering')
+        
+        if name == 'Régler la note':
+            pass
+        else:
+            return redirect('ordering')
 
     def get_bill(self, request):
         self.get_data(request)
@@ -235,17 +239,17 @@ class OrderManager():
             filter_name = request.GET.get('payment-data')
             
             try:
-                int(filter_name)
+                filter_name == int(filter_name)
                 try:
                     PaymentManager().payment(bill=self.bill)
-                    message = "payée"
+                    message = "note"
                 except:
-                    message = 'oups'
+                    pass
             except:
                 try:
                     PaymentManager().payment(user=self.user, bill=self.bill)
-                    message = "not int"
+                    message = "note client"
                 except:
                     pass
-            
+            print(message)
         return index(request, error=message)
