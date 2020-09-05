@@ -1,0 +1,51 @@
+{% extends 'command/base.html' %}
+{% block title %}MonPtiBar - Note{% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="page-section h-100">
+	
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center bg-dark mb-1">
+			Total: <strong>{{ bill_amount }} €</strong>
+		</div>
+
+		<div class="row d-flex justify-content-center bg-dark mb-1">
+			<div class="w-100 text-center" style="text-transform: capitalize;">
+				{{ user }}: <strong>{{ bill_user }} €</strong>
+			</div>
+
+			<div class="row w-100 d-flex justify-content-center text-center text-muted" id='other-userbutton'
+				onclick="displayElt('other-user')">
+				<i>Ajouter un client a votre note ?</i>
+			</div>
+			<div class="" id="other-user" style="display: none;">
+				
+				
+				{% for customer in customers %}
+				{% if not customer.user == user %}
+				<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ customer.user }}">
+					<span style="text-transform: capitalize;"><i>{{ customer.user }}</i></span>
+				</a>
+				{% endif %}
+				{% endfor %}
+				{% if not forloop.count > 1 %}
+				<img src="{% static 'command/img/lol.gif' %}" alt="" style="max-height: 80px;">
+				{% endif %}
+			
+				
+			</div>
+		</div>
+			 
+		<div class="row d-flex justify-content-center bg-dark mb-1">
+			<div class="w-100 text-center">
+				Divisé par {{ nbr_user }} utilisateurs: <strong>{{ split_bill }} €</strong>
+			</div>			
+
+		</div>
+	</div>
+
+
+</section>
+
+{% endblock %}

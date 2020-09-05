@@ -57,7 +57,11 @@ class TableConnectManager(models.Model):
         connection = TableConnect.objects.get(user=user, status='on')
         table_number = connection.table.number
         return table_number
+        
+    def get_customers(self, table):
 
+        customers = TableConnect.objects.filter(table=table, status='on')
+        return customers
 
 class Bill(models.Model):
     """ Bill """
@@ -149,7 +153,16 @@ class CommandManager(models.Model):
         to_cancel.delete()
         return to_cancel.product
        
+    def add_bill(self, user, bill, name):
         
+        old_user = User.objects.get(username=name.lower())
+        to_change = Command.objects.filter(bill=bill, user=old_user)
+        
+        to_change.update(user=user)
+        connection = TableConnect.objects.get(user=old_user, status='on')
+        connection.status = 'off'
+        connection.save()
+       
 
     def order_data(self, bill, status=None, user=None):
         

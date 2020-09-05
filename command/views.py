@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.db.models import Sum, Count
 from .models import *
 from product.models import ProductManager
 from .scripts import table_connection, closing_table
@@ -232,6 +233,27 @@ class OrderManager():
         }   
         return render(request, 'command/bill.html', context)
 
+    def check_bill(self, request):
+        self.get_data(request)
+
+        self.bill_amount = BillManager().get_bill(table=self.table, status='open')
+        self.bill_amount = self.bill_amount.amount
+        self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
+        
+        self.customers = TableConnectManager().get_customers(table=self.table)
+        self.nbr_user = len(self.customers)
+        self.split_bill = self.bill_amount/self.nbr_user
+        context = {
+            'user':self.user,
+            'bill_amount': self.bill_amount,
+            'bill_user': self.bill_user['price__sum'],
+            'customers': self.customers,
+            'nbr_user': self.nbr_user,
+            'split_bill': self.split_bill,
+        }
+
+        return render(request, 'command/check_bill.html', context)
+
     def pay_bill(self, request):
         self.get_data(request)
         
@@ -252,4 +274,10 @@ class OrderManager():
                 except:
                     pass
             print(message)
+        if request.GET.get('add-bill'):
+            name = request.GET.get('add-bill')
+
+            CommandManager().add_bill(user=self.user, bill=self.bill, name=name)
+            return redirect('ordering')
+            
         return index(request, error=message)

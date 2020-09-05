@@ -13,15 +13,26 @@
 		</div>
 
 		<div class="row d-flex justify-content-center pb-1">
-			<div class="text-center col-7 py-1">
-				Note pour: {{ filter_name.filter }}<strong>{{ filter_name.name }}</strong>
-			</div>	
+			<div class="text-center col-10 p-0">
+				Note pour: {{ filter_name.filter }}
+			</div>
+			<div class="text-center col-10 p-0">
+				<strong>{{ filter_name.name }}</strong>
+			</div>
+	
 			{% if not filter_name.filter == 'Table ' %}
-			<a href="{% url 'get_bill' %}" class="text-center col-7">
+			<div class="text-center col-10 p-0">
+				<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ filter_name.name }}">
+					<i class="fas fa-user-plus"></i>
+				</a>
+			</div>	
+			<div class="text-center col-11 p-0">
+				<a href="{% url 'get_bill' %}">
 				>> Voir la note pour la table {{ table }}
-			</a>
+				</a>
+			</div>
 			{% else %}
-			<div class="text-center text-muted col-9">
+			<div class="text-center text-muted col-11">
 				Cliquez sur un client pour avoir sa note
 			</div>
 			{% endif %}
@@ -124,23 +135,10 @@
 	<div class="container-fluid mt-4">
 		<div class="row d-flex justify-content-center mb-0">
 			
-			<button class="btn rounded col-4 m-2 px-1 py-0" onclick="displayElt('bill')">Régler la note</button>
-			
-		</div>
-		<div class="container-fluid p-0" id="bill" style="display: none;">
-			<div class="row d-flex align-items-stretch justify-content-center bg-dark mb-1">
-				Comment souhaitez-vous régler ?
-			</div>
-			<div class="row d-flex align-items-stretch justify-content-around bg-dark mb-1">
-				<form class="d-flex align-items-stretch col-4 m-0 p-0" action="{% url 'calling' %}?call=Régler la note"  method="post">
+			<form action="{% url 'check_bill' %}" method="post">
 				{% csrf_token %}
-				<button class="btn rounded col-12 m-2 px-1 py-0 ">Autre</button>
-				</form>	
-				<form class="d-flex align-items-stretch col-4 m-0 p-0" action="{% url 'pay_bill' %}?payment-data={{ filter_name.name }}" method="post">
-				{% csrf_token %}
-				<button class="btn rounded col-12 m-2 px-1 py-0 ">En Ligne</button>
-				</form>
-			</div>
+				<button class="btn rounded px-3 mx-2 " >Payer</button>
+			  </form>
 			
 		</div>
 	</div>
