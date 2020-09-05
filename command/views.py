@@ -174,12 +174,13 @@ class OrderManager():
     
     def calling(self,request):
         self.get_data(request)
+        self.name =None
 
         if request.GET.get('call'):
-            name = request.GET.get("call")
+            self.name = request.GET.get("call")
 
             try:
-                CallManager().new_call(table=self.table, name=name)
+                CallManager().new_call(table=self.table, name=self.name)
                 
             except Exception as e:
                 print(e)
@@ -191,7 +192,7 @@ class OrderManager():
             except Exception as e:
                 print(e)
         
-        if name == 'Régler la note':
+        if self.name == 'Régler la note':
             pass
         else:
             return redirect('ordering')
