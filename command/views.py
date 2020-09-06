@@ -221,7 +221,9 @@ class OrderManager():
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(bill=self.bill)
             self.bill_data =CommandManager().get_bill_data(bill=self.bill)
-        self.bill_amount = BillManager().get_bill(table=self.table, status='open')
+        
+        self.bill_amount = CommandManager().get_amount(bill=self.bill)
+
         context = {
             'bill_data': self.bill_data,
             'user':self.user,
@@ -230,23 +232,33 @@ class OrderManager():
             'filter_name': self.filter_name,
             'table': self.table,
             'code': self.code,
-            'bill_amount': self.bill_amount.amount,
+            'bill_amount': self.bill_amount,
         }   
         return render(request, 'command/bill.html', context)
 
     def check_bill(self, request):
         self.get_data(request)
 
-        self.bill_amount = BillManager().get_bill(table=self.table, status='open')
-        self.bill_amount = self.bill_amount.amount
-        self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
+        self.bill_amount = CommandManager().get_amount(bill=self.bill)
+        self.payed_amount = PaymentManager().get_payment(bill=self.bill)
+        if self.payed_amount:
+            self.rest_amount = self.bill_amount - self.payed_amount
+        else:
+            self.rest_amount = self.bill_amount
+
+        self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).exclude(status='payed').aggregate(Sum('price'))
         
         self.customers = TableConnectManager().get_customers(table=self.table)
         self.nbr_user = len(self.customers)
+        
         self.split_bill = self.bill_amount/self.nbr_user
+      
+
         context = {
             'user':self.user,
             'bill_amount': self.bill_amount,
+            'payed_amount': self.payed_amount,
+            'rest_amount': self.rest_amount,
             'bill_user': self.bill_user['price__sum'],
             'customers': self.customers,
             'nbr_user': self.nbr_user,
@@ -258,27 +270,43 @@ class OrderManager():
     def pay_bill(self, request):
         self.get_data(request)
         
-        if request.GET.get('payment-data'):
-            filter_name = request.GET.get('payment-data')
+        if request.GET.get('total-amount'):
+            amount = BillManager().get_bill(table=self.table, status='open').amount
             
-            try:
-                filter_name == int(filter_name)
-                try:
-                    PaymentManager().payment(bill=self.bill)
-                    message = "note"
-                except:
-                    pass
-            except:
-                try:
-                    PaymentManager().payment(user=self.user, bill=self.bill)
-                    message = "note client"
-                except:
-                    pass
-            print(message)
-        if request.GET.get('add-bill'):
-            name = request.GET.get('add-bill')
+            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
 
-            CommandManager().add_bill(user=self.user, bill=self.bill, name=name)
-            return redirect('ordering')
+            TableConnectManager().close_connection_table(table=self.table)
+           
+        if request.GET.get('user-amount'):
             
-        return index(request, error=message)
+            self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
+            amount =  self.bill_user['price__sum']
+
+            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+
+            PaymentManager().pay_orders(user=self.user, bill=self.bill)
+            TableConnectManager().close_connection_table(table=self.table, user=self.user)
+
+        if request.GET.get('split-amount'):
+            self.customers = TableConnectManager().get_customers(table=self.table)
+            self.nbr_user = len(self.customers)
+            amount = self.bill_amount/self.nbr_user
+
+            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+            TableConnectManager().close_connection_table(table=self.table, user=self.user)
+
+        self.bill_amount = CommandManager().get_amount(bill=self.bill)
+        self.payed_amount = PaymentManager().get_payment(bill=self.bill)
+        self.rest_amount = self.bill_amount - self.payed_amount
+        
+        if self.rest_amount == 0:
+            
+            BillManager().close_bill(bill=self.bill)
+
+            to_close = Table.objects.get(pk=self.table)
+            to_close.status = "open"
+            to_close.save()
+
+
+        return redirect('index')
+            

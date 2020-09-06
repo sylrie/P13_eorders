@@ -58,11 +58,35 @@ class TableConnectManager(models.Model):
         table_number = connection.table.number
         return table_number
         
-    def get_customers(self, table):
+    def get_customers(self, table, action=None):
 
         customers = TableConnect.objects.filter(table=table, status='on')
-        return customers
+        
+        if action:
+            for user in customers:
+                user = customers.get(user=user.user)
+                user.status = action
+                user.save()
 
+        return customers
+    def close_connection_table(self, table, user=None):
+        if user:
+            to_close = TableConnect.objects.get(table=table, user=user, status='on')
+            
+        else:
+            to_close = TableConnect.objects.get(table=table, status='on')
+        
+        try:
+            for connection in to_close:
+                connection.status = 'off'
+                connection.save()
+        except:
+        
+            to_close.status = 'off'
+            to_close.save()
+
+      
+      
 class Bill(models.Model):
     """ Bill """
     BILL_STATUS = [
@@ -99,6 +123,14 @@ class BillManager(models.Model):
         new_amount.amount += amount
         new_amount.save()
 
+    def close_bill(self, bill):
+        try:
+            to_close = Bill.objects.get(pk=bill.id)
+            to_close.status = 'closed'
+            to_close.save()
+        except Exception as e:
+            print(bill)
+            print(e)
 
 class Command(models.Model):
     """ Command """
@@ -128,7 +160,6 @@ class Command(models.Model):
             )
         )
 
-
 class CommandManager(models.Model):
 
     def new_order(self, user, bill, product, qty=None):
@@ -137,7 +168,8 @@ class CommandManager(models.Model):
             user=user,
             bill=bill,
             product=product,
-            price=product.unit_price)
+            price=product.unit_price
+            )
         new.save()
 
         BillManager().amount_update(bill=bill.id, amount=new.price)
@@ -146,7 +178,6 @@ class CommandManager(models.Model):
     def del_order(self, order_id):
 
         to_cancel = Command.objects.get(id=order_id, status='new')
-        
         
         BillManager().amount_update(bill=to_cancel.bill.id, amount=-to_cancel.price)
 
@@ -196,6 +227,13 @@ class CommandManager(models.Model):
             orders = Command.objects.filter(bill=bill).order_by('status', 'product')#.distinct('status', 'product')
         
         return orders
+
+    def get_amount(self, bill):
+
+        orders = Command.objects.filter(bill=bill)
+        amount = orders.aggregate(Sum('price'))
+
+        return amount['price__sum']
 
 class Call(models.Model):
     
@@ -249,7 +287,7 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     amount = models.FloatField()
-    mode = models.CharField(max_length=50, choices=MODE)
+    mode = models.CharField(max_length=50, choices=MODE, null=True)
     date = models.DateTimeField(default=timezone.now)
     
     class Meta:
@@ -268,5 +306,34 @@ class Payment(models.Model):
 
 class PaymentManager(models.Model):
     
-    def payment(self, bill, user=None):
-        pass
+    def get_payment(self, bill):
+
+        payments = Payment.objects.filter(bill=bill)
+        amount = payments.aggregate(Sum('amount'))
+
+        return amount['amount__sum']
+
+    def payment_bill(self, user, bill, amount):
+        
+        payment = Payment.objects.create(
+        user=user,
+        bill=bill,
+        amount=amount
+        )
+        payment.save()
+
+        
+    def pay_orders(self, bill, user):
+        
+        try:
+
+            to_change = Command.objects.filter(bill=bill, user=user).exclude(status='payed')
+            
+            for order in to_change:
+                order.status = 'payed'
+                
+                order.save()
+        except:
+            pass
+          
+            
