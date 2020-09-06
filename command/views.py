@@ -268,6 +268,11 @@ class OrderManager():
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.error = None
         try:
+            if request.GET.get('add-bill'):
+                name = request.GET.get('add-bill')
+                CommandManager().add_bill(user=self.user, bill=self.bill, name=name)
+                return self.check_bill(request)
+
             if request.GET.get('total-amount'):
                 amount = CommandManager().get_amount(bill=self.bill)
                 if amount:
@@ -297,7 +302,7 @@ class OrderManager():
                 TableConnectManager().close_connection_table(table=self.table, user=self.user)
         except:
             self.error = "oups une erreur s'est produite"
-            
+
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.payed_amount = PaymentManager().get_payment(bill=self.bill)
         
