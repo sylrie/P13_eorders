@@ -84,10 +84,9 @@
 
       </div>
     </nav>
-    <div class="d-flex flex-column h-100">
-    {% block content %}{% endblock %}
-    </div>
     
+    {% block content %}{% endblock %}
+ 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'command/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'command/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -100,5 +99,5 @@
     <script src="{% static 'command/js/index.js' %}"></script>
     
   </body>
-
+  
 </html>
