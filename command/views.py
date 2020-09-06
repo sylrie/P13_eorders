@@ -214,7 +214,7 @@ class OrderManager():
             
         
         else:
-            self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
+            self.new_data = CommandManager().order_data(bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(bill=self.bill)
             self.bill_data =CommandManager().get_bill_data(bill=self.bill)
         
