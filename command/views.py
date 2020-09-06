@@ -68,10 +68,6 @@ def openning_bill(request):
     
     return OrderManager().ordering(request)
 
-def closing_bill(request):
-    table = request.GET.get("table")
-    to_close = closing_table(table=table)
-    return redirect('index')
 
 
 class OrderManager():
@@ -268,11 +264,13 @@ class OrderManager():
         return render(request, 'command/check_bill.html', context)
 
     def pay_bill(self, request):
+        
         self.get_data(request)
+        self.bill_amount = CommandManager().get_amount(bill=self.bill)
         
         if request.GET.get('total-amount'):
-            amount = BillManager().get_bill(table=self.table, status='open').amount
-            
+            amount = CommandManager().get_amount(bill=self.bill)
+           
             PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
 
             TableConnectManager().close_connection_table(table=self.table)
@@ -291,21 +289,24 @@ class OrderManager():
             self.customers = TableConnectManager().get_customers(table=self.table)
             self.nbr_user = len(self.customers)
             amount = self.bill_amount/self.nbr_user
+            print(amount)
 
             PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
             TableConnectManager().close_connection_table(table=self.table, user=self.user)
 
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.payed_amount = PaymentManager().get_payment(bill=self.bill)
-        self.rest_amount = self.bill_amount - self.payed_amount
         
-        if self.rest_amount == 0:
-            
-            BillManager().close_bill(bill=self.bill)
+        if self.payed_amount:
+            self.rest_amount = self.bill_amount - self.payed_amount
+        
+            if self.rest_amount <= 0:
+                
+                BillManager().close_bill(bill=self.bill)
 
-            to_close = Table.objects.get(pk=self.table)
-            to_close.status = "open"
-            to_close.save()
+                to_close = Table.objects.get(pk=self.table)
+                to_close.status = "open"
+                to_close.save()
 
 
         return redirect('index')

@@ -69,12 +69,13 @@ class TableConnectManager(models.Model):
                 user.save()
 
         return customers
+
     def close_connection_table(self, table, user=None):
         if user:
-            to_close = TableConnect.objects.get(table=table, user=user, status='on')
+            to_close = TableConnect.objects.filter(table=table, user=user, status='on')
             
         else:
-            to_close = TableConnect.objects.get(table=table, status='on')
+            to_close = TableConnect.objects.filter(table=table, status='on')
         
         try:
             for connection in to_close:
@@ -95,7 +96,7 @@ class Bill(models.Model):
     ]
     status = models.CharField(max_length=50, choices=BILL_STATUS, default='open')
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
-    amount = models.FloatField(default=0)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     date = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -144,7 +145,7 @@ class Command(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=50, choices=COMMAND_STATUS, default='new')
     date = models.DateTimeField(default=timezone.now)
     
@@ -163,7 +164,7 @@ class Command(models.Model):
 class CommandManager(models.Model):
 
     def new_order(self, user, bill, product, qty=None):
-
+      
         new = Command.objects.create(
             user=user,
             bill=bill,
@@ -171,8 +172,7 @@ class CommandManager(models.Model):
             price=product.unit_price
             )
         new.save()
-
-        BillManager().amount_update(bill=bill.id, amount=new.price)
+        
         return new
 
     def del_order(self, order_id):
@@ -286,7 +286,7 @@ class Payment(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     mode = models.CharField(max_length=50, choices=MODE, null=True)
     date = models.DateTimeField(default=timezone.now)
     

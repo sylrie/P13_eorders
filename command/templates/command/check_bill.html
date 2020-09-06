@@ -19,46 +19,42 @@
 			</span>
 		</div>
 
-		<div class="row d-flex justify-content-center bg-dark mb-1">
-			
-			<span class="col-7 p-1" style="text-transform: capitalize;"> {{ user }}:</span>
-			<span class="col-3 p-1"><strong>{{ bill_user }} €</strong></span>
-			<span class="col-2 pt-1 text-center">
-				<a href="{% url 'pay_bill' %}?user-amount={{ bill_user }}"><i class="fas fa-credit-card"></i></a>
-			</span>
-		
+		{% if not rest_amount <= bill_user %}
 			{% if nbr_user > 1 %}
-			<div class="row w-100 d-flex justify-content-center text-center text-muted" id='other-userbutton'
-				onclick="displayElt('other-user')">
-				<i>Ajouter un client a votre note ?</i>
-			</div>
-			<div class="" id="other-user" style="display: none;">
-			
-				
-			{% for customer in customers %}
-			{% if not customer.user == user %}
-			<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ customer.user }}">
-				<span style="text-transform: capitalize;"><i>{{ customer.user }}</i></span>
-			</a>
-			{% endif %}
-			{% endfor %}
-				
-			
-				
-			</div>
-		</div>
-		{% endif %}
-
-		{% if nbr_user > 1 %}
-		<div class="row d-flex justify-content-center bg-dark mb-1">
-		
-				<span class="col-7 p-1">Divisée par {{ nbr_user }}</span>
-				<span class="col-3 p-1"><strong>{{ split_bill }} €</strong></span>
+			<div class="row d-flex justify-content-center bg-dark mb-1">
+				<span class="col-7 p-1" style="text-transform: capitalize;"> {{ user }}:</span>
+				<span class="col-3 p-1"><strong>{{ bill_user }} €</strong></span>
 				<span class="col-2 pt-1 text-center">
-					<a href="{% url 'pay_bill' %}?split-amount={{ split_bill }}"><i class="fas fa-credit-card"></i></a>
+					<a href="{% url 'pay_bill' %}?user-amount={{ bill_user }}"><i class="fas fa-credit-card"></i></a>
 				</span>
+		
+				<div class="row w-100 d-flex justify-content-center text-center text-muted" id='other-userbutton'
+					onclick="displayElt('other-user')">
+					<i>Ajouter un client a votre note ?</i>
+				</div>
+				<div class="" id="other-user" style="display: none;">
+				{% for customer in customers %}
+				{% if not customer.user == user %}
+				<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ customer.user }}">
+					<span style="text-transform: capitalize;"><i>{{ customer.user }}</i></span>
+				</a>
+				{% endif %}
+				{% endfor %}
+				</div>
+				
+			</div>
 			
-		</div>
+	
+			<div class="row d-flex justify-content-center bg-dark mb-1">
+			
+					<span class="col-7 p-1">Divisée par {{ nbr_user }}</span>
+					<span class="col-3 p-1"><strong>{{ split_bill }} €</strong></span>
+					<span class="col-2 pt-1 text-center">
+						<a href="{% url 'pay_bill' %}?split-amount={{ split_bill }}"><i class="fas fa-credit-card"></i></a>
+					</span>
+				
+			</div>
+			{% endif %}
 		{% endif %}
 
 	</div>
