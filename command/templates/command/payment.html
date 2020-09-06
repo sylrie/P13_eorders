@@ -1,0 +1,50 @@
+{% extends 'command/base.html' %}
+{% block title %}MonPtiBar - Note{% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="page-section h-100">
+	<div class="container-fluid bg-dark rounded col-11 my-3 p-2">
+		<div class="row d-flex text center justify-content-center pb-1" style="text-transform: capitalize;">
+			<strong>{{ user }}</strong>
+		</div>
+		
+		{% if error %}
+		<div class="row d-flex text-center justify-content-center p-1">
+		{{ error }}
+		</div>
+		{% else %}
+		{% if amount %}
+		<div class="row d-flex text-center justify-content-center p-1">
+			La somme de <strong> {{ amount }} </strong>à été payé
+		</div>
+		{% endif %}
+		<div class="row d-flex text-center justify-content-center p-1">
+			Merci de votre visite !
+		</div>
+		{% endif %}
+		<div class="row d-flex text-center justify-content-center p-1">
+			<form action="{% url 'index' %}" method="post">
+				{% csrf_token %}
+				<button class="btn rounded px-3 mx-2 " >OK</button>
+			</form>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+{% endblock %}

@@ -263,37 +263,41 @@ class OrderManager():
 
         return render(request, 'command/check_bill.html', context)
 
-    def pay_bill(self, request):
-        
+    def pay_bill(self, request): 
         self.get_data(request)
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
-        
-        if request.GET.get('total-amount'):
-            amount = CommandManager().get_amount(bill=self.bill)
-           
-            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+        self.error = None
+        try:
+            if request.GET.get('total-amount'):
+                amount = CommandManager().get_amount(bill=self.bill)
+                if amount:
+                    PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
 
-            TableConnectManager().close_connection_table(table=self.table)
-           
-        if request.GET.get('user-amount'):
+                    TableConnectManager().close_connection_table(table=self.table)
+                else:
+                    redirect('index')
             
-            self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
-            amount =  self.bill_user['price__sum']
+            if request.GET.get('user-amount'):
+                
+                self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
+                amount =  self.bill_user['price__sum']
 
-            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
 
-            PaymentManager().pay_orders(user=self.user, bill=self.bill)
-            TableConnectManager().close_connection_table(table=self.table, user=self.user)
+                PaymentManager().pay_orders(user=self.user, bill=self.bill)
+                TableConnectManager().close_connection_table(table=self.table, user=self.user)
 
-        if request.GET.get('split-amount'):
-            self.customers = TableConnectManager().get_customers(table=self.table)
-            self.nbr_user = len(self.customers)
-            amount = self.bill_amount/self.nbr_user
-            print(amount)
+            if request.GET.get('split-amount'):
+                self.customers = TableConnectManager().get_customers(table=self.table)
+                self.nbr_user = len(self.customers)
+                amount = self.bill_amount/self.nbr_user
+                
 
-            PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
-            TableConnectManager().close_connection_table(table=self.table, user=self.user)
-
+                PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                TableConnectManager().close_connection_table(table=self.table, user=self.user)
+        except:
+            self.error = "oups une erreur s'est produite"
+            
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.payed_amount = PaymentManager().get_payment(bill=self.bill)
         
@@ -308,6 +312,11 @@ class OrderManager():
                 to_close.status = "open"
                 to_close.save()
 
-
-        return redirect('index')
+        
+        context = {
+            'user': self.user,
+            'amount': amount,
+            'error': self.error,
+        }
+        return render(request, 'command/payment.html', context)
             
