@@ -12,6 +12,8 @@ def index(request, error=None):
     """ Home page """
     if not request.user.is_authenticated:
         return render(request, 'account/login.html')
+    if request.user.is_staff:
+        return StaffManager().all_data(request)
 
     else:
         try:
@@ -69,7 +71,6 @@ def openning_bill(request):
     return OrderManager().ordering(request)
 
 
-
 class OrderManager():
 
     def get_data(self, request):
@@ -78,15 +79,16 @@ class OrderManager():
         self.code = None
         self.bill = None
         self.message = None
-      
+        
         if self.user:
+            
             try:
                 self.table = TableConnectManager().get_connection_table(user=self.user)
             except:
                 pass
         else:
-            return redirect('login')
-            
+            return index(request)
+        
         if self.table:
             code = Table.objects.get(number=self.table)
             self.code = code.code
@@ -95,15 +97,11 @@ class OrderManager():
         else:
             return index(request)
             
-       
-            
-   
     def ordering(self, request):
         self.get_data(request)
         self.menu = ProductManager().get_menu()
         self.product = None
         self.order_id = None
-        self.order_data = None
         self.new_data = None
         self.family = None
         self.error = None
@@ -148,7 +146,6 @@ class OrderManager():
         else:
             
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
-            self.order_data = CommandManager().order_data(user=self.user, bill=self.bill)
             
             self.calls = CallManager().get_calls(table=self.table)
 
@@ -161,7 +158,6 @@ class OrderManager():
                 'bill': self.bill,
                 'menu': self.menu,
                 'order_id': self.order_id,
-                'order_data': self.order_data,
                 'new_data': self.new_data,
                 'family': self.family
             }
@@ -236,7 +232,11 @@ class OrderManager():
         self.get_data(request)
 
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
+        if not self.bill_amount:
+            return self.ordering(request)
+
         self.payed_amount = PaymentManager().get_payment(bill=self.bill)
+        
         if self.payed_amount:
             self.rest_amount = self.bill_amount - self.payed_amount
         else:
@@ -267,6 +267,7 @@ class OrderManager():
         self.get_data(request)
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.error = None
+        
         try:
             if request.GET.get('add-bill'):
                 name = request.GET.get('add-bill')
@@ -300,6 +301,7 @@ class OrderManager():
 
                 PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
                 TableConnectManager().close_connection_table(table=self.table, user=self.user)
+       
         except:
             self.error = "oups une erreur s'est produite"
 
@@ -325,3 +327,60 @@ class OrderManager():
         }
         return render(request, 'command/payment.html', context)
             
+
+class StaffManager():
+
+    def all_data(self, request):
+
+        open_bills = Bill.objects.filter(status='open')
+        calls = Call.objects.filter(active=True)
+        
+        orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
+        context = {
+            'orders': orders,
+            'bills': open_bills,
+            'calls': calls
+        }
+        return render(request, 'command/staff.html', context)
+    
+    def change_status(self, request):
+        
+        if request.GET.get('close-call'):
+            call = request.GET.get('close-call')
+            try:
+                CallManager().close_call(call=call)
+            except Exception as e:
+                print(e)
+        else:
+            if request.GET.get('in-progress'):
+                order = request.GET.get('in-progress')
+                status = 'in-progress'
+            if request.GET.get('delivered'):
+                order = request.GET.get('delivered')
+                status = 'delivered'
+          
+            CommandManager().update_status(order_id=order, status=status)
+            
+        return self.all_data(request)
+    
+    def pay_by_staff(self,request):
+
+      
+        bill_id = int(request.GET.get('bill'))
+
+        bill = Bill.objects.get(pk=bill_id)
+        amount = CommandManager().get_amount(bill=bill)
+
+        PaymentManager().payment_bill(user=request.user, bill=bill, amount=amount)
+        
+        
+        table = bill.table.number
+        TableConnectManager().close_connection_table(table=table)
+        
+        to_open =  Table.objects.get(pk=table)
+        to_open.status = 'open'
+        to_open.save()
+        
+        BillManager().close_bill(bill=bill)
+
+        return self.all_data(request)

@@ -62,6 +62,14 @@
             </li>
             {% endif %}
 
+            {% if bill or bill_amount %}
+            <li class="nav-item p-2">
+              <a class="nav-link" href="{% url 'check_bill' %}">
+                <i class="fas fa-credit-card" title="Payer"></i>
+              </a>
+            </li>
+            {% endif %}
+
             {% if user.is_authenticated %}
             <li class="nav-item p-2">
               <a class="nav-link" href="/accounts/logout/">

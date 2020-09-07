@@ -1,0 +1,94 @@
+{% extends 'command/base.html' %}
+{% block title %}MonPtiBar - Note{% endblock %}
+{% load static %}
+{% block content %}
+
+
+<section class="page-section h-100">
+	
+	<div class="container-fluid">
+		<div class="row d-flex  pb-1 px-3">
+			<a href="">
+				<i class="fas fa-sync-alt"></i>
+			</a>	
+		</div>
+	</div>
+	{% if calls %}
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center align-items-center bg-dark mb-1">
+			<div>Demandes</div>
+			<div class="row w-100"></div>
+			{% for call in calls %}
+			<div class="row text-info d-flex col-12 p-0 align-items-center border-bottom">
+				<div class="col-5 text-left p-1">Table: {{ call.table.number }}</div>
+				<div class="col-5 text-left p-1">{{ call.name }}</div>
+				<div class="col-2 text-right pt-2 pb-1">
+					<a href="{% url 'change_status' %}?close-call={{ call.id }}">
+						<i class="fas fa-check-circle"></i>
+					</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+
+	
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center align-items-center p-1 mb-1">
+			<div>Nouvelles commandes</div>
+			<div class="row w-100"></div>
+			{% for bill in bills %}
+			<div class="col-3 text-center rounded bg-dark p-1 m-1"
+				id='{{ bill.table.number }}button' onclick="displayElt('{{ bill.table.number }}','{{ bill.table.number }}button')">Table: <strong>{{ bill.table.number }}</strong></div>
+			{% endfor %}
+		</div>
+	</div>	
+
+	{% for bill in bills %}
+	<div class="container-fluid" id="{{ bill.table.number }}" style="display: none;">
+		<div class="row d-flex justify-content-center text-center bg-dark my-3">Table: {{ bill.table.number }}
+		{% for order in orders %}
+		
+		{% if order.bill == bill %}
+			{% if order.status == 'new' %}
+			<div class="new row d-flex col-12 p-0 align-items-center border-bottom">
+			{% else %}
+			<div class="row d-flex col-12 p-0 align-items-center border-bottom">
+			{% endif %}	
+
+				<div class="col-7 text-left p-1">{{ order.product.name }}</div>
+
+				<div class="d-flex col-5 justify-content-around pt-2 pb-1">
+					{% if order.status == 'new' %}
+					<a href="{% url 'change_status' %}?in-progress={{ order.id }}">
+						<i class="fas fa-spinner"></i>
+					</a>
+					{% endif %}
+					<a href="{% url 'change_status' %}?delivered={{ order.id }}">
+						<i class="fas fa-check-circle"></i>
+					</a>
+				</div>
+				</div>
+			
+		{% endif %}
+		
+		{% endfor %}
+				<div class="row d-flex col-12 justify-content-center bg-dark pt-2 pb-1 ">	
+					<a href="{% url 'pay_by_staff' %}?bill={{ bill.id }}">
+						<i class="fas fa-credit-card"></i>
+					</a>
+				</div>
+			</div>
+			
+		</div>
+	{% endfor %}
+	</div>
+	{% if forlopp.counter == 0 %}
+	<div class="row d-flex justify-content-center text-center text-muted">
+		- Aucune demandes -
+	</div>
+	{% endif %}
+</section>
+
+{% endblock %}

@@ -85,8 +85,7 @@ class TableConnectManager(models.Model):
         
             to_close.status = 'off'
             to_close.save()
-
-      
+   
       
 class Bill(models.Model):
     """ Bill """
@@ -130,7 +129,6 @@ class BillManager(models.Model):
             to_close.status = 'closed'
             to_close.save()
         except Exception as e:
-            print(bill)
             print(e)
 
 class Command(models.Model):
@@ -236,6 +234,14 @@ class CommandManager(models.Model):
         amount = orders.aggregate(Sum('price'))
 
         return amount['price__sum']
+
+    def update_status(self, order_id, status):
+        try:
+            order = Command.objects.get(pk=order_id)
+            order.status = status
+            order.save()
+        except Exception as e:
+            print(e)
 
 class Call(models.Model):
     
