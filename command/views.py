@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db.models import Sum, Count
 from .models import *
+from .db_manager import *
 from product.models import ProductManager
 from .scripts import table_connection, closing_table
 from .forms import JoinTable, PayBill

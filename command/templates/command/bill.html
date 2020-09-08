@@ -24,26 +24,22 @@
 
 		<div class="row d-flex justify-content-center pb-1">
 			<div class="text-center col-10 p-0">
-				Note pour: {{ filter_name.filter }}
+				Commande(s) pour: {{ filter_name.filter }}
 			</div>
 			<div class="text-center col-10 p-0">
 				<strong>{{ filter_name.name }}</strong>
 			</div>
-	
-			{% if not filter_name.filter == 'Table ' and not filter_name.name == user %}
-			<div class="text-center col-10 p-0">
-				<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ filter_name.name }}">
-					<i class="fas fa-user-plus"></i>
-				</a>
-			</div>	
+			
+			{% if not filter_name.filter == 'Table ' %}
+			
 			<div class="text-center col-11 p-0">
 				<a href="{% url 'get_bill' %}">
-				>> Voir la note pour la table {{ table }}
+					>> Voir les commandes pour la table {{ table }} <<
 				</a>
 			</div>
 			{% else %}
 			<div class="text-center text-muted col-11">
-				Cliquez sur un client pour avoir sa note
+				Cliquez sur un client pour voir ses commandes
 			</div>
 			{% endif %}
 		</div>
@@ -67,7 +63,7 @@
 				<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
 					
 					<div class="col-1 px-2 text-center">
-						{% if line.status == 'new' %}
+						{% if line.status == 'new' and line.user == user %}
 						<a href="{% url 'ordering' %}?del-product-bill={{ line.id }}">
 
 							<i class="far fa-trash-alt py-1"></i>
@@ -78,10 +74,12 @@
 					<span class="col-6 px-1">
 						{{ line.product.name }}
 					</span>
+
 					
 					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" class="col-3 text-center px-0" style="text-transform: capitalize;">
 						<i>{{ line.user }}</i>
 					</a>
+				
 
 					{% if line.price == 0 %}
 					<span class="col-2 text-center text-success px-0">
