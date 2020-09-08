@@ -7,10 +7,10 @@ CSS FILES FOR PUR BEURRE PLATFORM
 :root {
     --biscuit: #E8A75D;
     --moules: #f14806;
-    --moules-light: rgba(52, 90, 97, 0.8);
+    
     --light: #dbdddd;
     --caramel: #696767;
-    --rooibos: #C45525;
+    --orange: #C45525;
     --font-family: "Scope One", sans-serif;
     --font-family-h: "Open Sans", sans-serif;
 }
@@ -64,7 +64,7 @@ header.masthead h2 {
   font-size: 3rem;
 }
 .new{
-  color:var(--rooibos);
+  color:var(--orange);
 }
 .title {
   font-size: 2.6rem;
@@ -84,150 +84,14 @@ header.masthead h2 {
   overflow: auto;
 }
 strong {
-    color: var(--rooibos);
+    color: var(--orange);
 }
-#nav-form.form-control {
-    background-color: rgba(228, 227, 227, 0.7);
-    border: 1px solid var(--moules);
-    color: var(--moules);
-    font-size: 1.1rem;
-}
+
 .fas {
-    font-size: 2rem;
-}
-#selected, #favorites {
-    background-color: var(--moules);
-    padding-bottom: 3rem;
-    color: var(--biscuit);
-}
-#selected a, #connection a, #favorites a  {
-    color: var(--rooibos);
-    text-decoration: none;
-    font-style: italic;
-    background-color: transparent;
-} 
-#selected a:hover, #connection a:hover, #favorites a:hover {
-    color:var(--rigolo);
-    text-decoration: underline;
-}
-#off {
-  color: var(--rigolo);
-  text-decoration: none;
-  font-style: italic;
-  background-color: transparent;
-} 
-#off:hover {
-  color:var(--rooibos);
-  text-decoration: underline;
-}
-#contact {
-    font-size: 110%;
-}
-#products{
-    position: relative;
-    background-color: var(--caramel);
-    color: var(--moules);
-    text-align: center;
-    padding-bottom: 3rem;
-}
-#identity {
-    color: var(--moules);
-    padding-top: 4rem;
-    padding-bottom: 0;
-    background-color: var(--biscuit);
-}
-.img {
-    display:block;
-    width: 100%;
-    height:250px; 	
-}
-#list {
-    max-height: 650px;
-    background-color: var(--biscuit);
-    text-overflow: ellipsis;
-    overflow: auto;
-    box-shadow: -2px -2px 0.5rem rgba(0,0,0, 0.3),
-    2px 2px 0.5rem rgba(0,0,0, 0.3);
-    
+    font-size: 1.8rem;
 }
 
 
-
-#contact {
-    background-color: var(--rooibos);
-    color: var(--biscuit);
-}
-.id-box {
-    border: 4px var(--rooibos) ridge;
-    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
-    color: var(--moules);
-    background-color: white;
-}
-.card {
-  background-color: var(--moules);
-  border: none;
-  color:var(--biscuit);    
-}
-.product-card {
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  text-align: center;
-  background-color: var(--caramel);
-  color: var(--moules);
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-  border: 4px var(--moules) ridge;
-}
-.fav-card { 
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    text-align: center;
-    background-color: var(--biscuit);
-    color: var(--moules);
-    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-    border: 4px var(--moules) ridge;
-  }
-.new-fav-card {
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  text-align: center;
-  background-color: var(--biscuit);
-  color: var(--moules);
-  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-  border: 6px yellow ridge;
-}
-.product-img {
-  width: 100%;
-  height: 230px;
-  object-fit: contain;
-}
-.product-box {
-  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-  background-color: var(--biscuit);
-  border: 3px ridge var(--moules);
-  text-align: center;    
-  color: var(--moules);
-  margin: 0.5rem 0 0.5rem 0;
- 
-}
-.db2-sticker {
-  position: absolute;
-  top: -40px;
-  right: 30px;
-}
-.logo-nutriscore {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-}
-.logo-star {
-  position: absolute;
-  top: -45px;
-  left: -45px;
-  width: 100px;
-}
-
-.legals, .logout {
-  background-color: rgba(214, 214, 216, 0.5);
-  color: var(--moules);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
-}
 footer {
     background-color: var(--caramel);
     color: var(--moules);
@@ -253,7 +117,7 @@ footer {
 }
 .btn:hover {
   background-color: var(--biscuit);
-  color: var(--rooibos);
+  color: var(--orange);
 }
 .form-signin {
   background-color: rgba(214, 214, 216, 0.7);

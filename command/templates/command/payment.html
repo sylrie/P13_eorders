@@ -10,18 +10,20 @@
 		</div>
 		
 		{% if error %}
-		<div class="row d-flex text-center justify-content-center p-1">
+		<div class="row alert alert-warnig d-flex text-center justify-content-center m-1 p-1">
 		{{ error }}
 		</div>
 		{% else %}
 		{% if amount %}
 		<div class="row d-flex text-center justify-content-center p-1">
-			<span>La somme de <strong>{{ amount }}</strong> à été payé</span>
-			
+			<span>La somme de <strong>{{ amount }} €</strong> a été payé</span>
 		</div>
 		{% endif %}
 		<div class="row d-flex text-center justify-content-center p-1">
 			Merci de votre visite !
+		</div>
+		<div class="container-fluid justify-content-center text-center p-2">
+			<img src="{% static 'command/img/happy.gif' %}" alt="" style="max-height: 80px;">
 		</div>
 		{% endif %}
 		<div class="row d-flex text-center justify-content-center p-1">

@@ -8,11 +8,18 @@
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-between pb-1 px-3">
 			<a href="{% url 'ordering' %}">
-				<i class="fas fa-clipboard-list"></i>
-				<span>Menu</span>
+				<div class="col-12 text-center">Menu
+					<div class="">
+						<i class="fas fa-clipboard-list"></i>
+					</div>
+				</div>
 			</a>
 			<a href="">
-				<i class="fas fa-sync-alt"></i>
+				<div class="col-12 text-center">Rafraichir
+					<div class="">
+						<i class="fas fa-sync-alt"></i>
+					</div>
+				</div>
 			</a>
 		</div>
 	
@@ -25,7 +32,7 @@
 			<span class="col-7 p-1"> Total:</span>
 			<span class="col-3 p-1"><b>{{ rest_amount }} €</b></span>
 			<span class="col-2 pt-1 text-center">
-				<a href="{% url 'pay_bill' %}?total-amount={{ rest_amount }}"><i class="fas fa-credit-card"></i></a>
+				<a href="{% url 'pay_bill' %}?total-amount='{{ rest_amount }}'"><i class="fas fa-credit-card"></i></a>
 			</span>
 		</div>
 
@@ -54,7 +61,6 @@
 				
 			</div>
 			
-	
 			<div class="row d-flex justify-content-center bg-dark mb-1">
 			
 					<span class="col-7 p-1">Divisée par <strong>{{ nbr_user }}</strong></span>

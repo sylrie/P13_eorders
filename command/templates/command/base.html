@@ -62,7 +62,7 @@
             </li>
             {% endif %}
 
-            {% if bill or bill_amount %}
+            {% if bill or bill_amount and not new_data.items_qty %}
             <li class="nav-item p-2">
               <a class="nav-link" href="{% url 'check_bill' %}">
                 <i class="fas fa-credit-card" title="Payer"></i>

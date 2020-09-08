@@ -7,11 +7,18 @@
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-between pb-1 px-3">
 			<a href="{% url 'ordering' %}">
-				<i class="fas fa-clipboard-list"></i>
-				<span>Menu</span>
+				<div class="col-12 text-center">Menu
+					<div class="">
+						<i class="fas fa-clipboard-list"></i>
+					</div>
+				</div>
 			</a>
 			<a href="">
-				<i class="fas fa-sync-alt"></i>
+				<div class="col-12 text-center">Rafraichir
+					<div class="">
+						<i class="fas fa-sync-alt"></i>
+					</div>
+				</div>
 			</a>
 		</div>
 
@@ -56,7 +63,7 @@
 
 		<div class="container-fluid p-0" id="new_orders"  style="display: block;">
 			{% for line in bill_data %}
-			{% if line.status == 'new' or line.status == 'in progress' %}
+			{% if line.status == 'in-progress' or line.status == 'new' %}
 				<div class="new row d-flex justify-content-center align-items-center bg-dark mb-1">
 					
 					<div class="col-1 px-2 text-center">
@@ -135,7 +142,7 @@
 		</div>
 	</div>
 
-	{% if bill_amount %}
+	{% if bill_amount and not new_data.items_qty %}
 	<div class="container-fluid mt-4">
 		<div class="row d-flex justify-content-center mb-0">
 			

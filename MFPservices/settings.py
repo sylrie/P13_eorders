@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 if os.environ.get('ENV') == 'PRODUCTION':	
     DEBUG = False	
 else:	
-    DEBUG = False 
+    DEBUG = True 
 
 ALLOWED_HOSTS = ['eorders.herokuapp.com', '127.0.0.1', 'localhost']
 

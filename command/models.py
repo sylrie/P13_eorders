@@ -323,12 +323,16 @@ class PaymentManager(models.Model):
 
     def payment_bill(self, user, bill, amount):
         
-        payment = Payment.objects.create(
-        user=user,
-        bill=bill,
-        amount=amount
-        )
-        payment.save()
+        try:
+            payment = Payment.objects.create(
+            user=user,
+            bill=bill,
+            amount=amount
+            )
+            payment.save()
+            return True
+        except:
+            return False
 
         
     def pay_orders(self, bill, user):

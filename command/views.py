@@ -267,7 +267,7 @@ class OrderManager():
         self.get_data(request)
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.error = None
-        
+        payed = False
         try:
             if request.GET.get('add-bill'):
                 name = request.GET.get('add-bill')
@@ -275,11 +275,13 @@ class OrderManager():
                 return self.check_bill(request)
 
             if request.GET.get('total-amount'):
+                
                 amount = CommandManager().get_amount(bill=self.bill)
                 if amount:
-                    PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                    payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                    if payed:
 
-                    TableConnectManager().close_connection_table(table=self.table)
+                        TableConnectManager().close_connection_table(table=self.table)
                 else:
                     redirect('index')
             
@@ -288,10 +290,11 @@ class OrderManager():
                 self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
                 amount =  self.bill_user['price__sum']
 
-                PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
 
-                PaymentManager().pay_orders(user=self.user, bill=self.bill)
-                TableConnectManager().close_connection_table(table=self.table, user=self.user)
+                if payed:
+                    PaymentManager().pay_orders(user=self.user, bill=self.bill)
+                    TableConnectManager().close_connection_table(table=self.table, user=self.user)
 
             if request.GET.get('split-amount'):
                 self.customers = TableConnectManager().get_customers(table=self.table)
@@ -299,27 +302,29 @@ class OrderManager():
                 amount = self.bill_amount/self.nbr_user
                 
 
-                PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
-                TableConnectManager().close_connection_table(table=self.table, user=self.user)
+                payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
+                if payed:
+                    TableConnectManager().close_connection_table(table=self.table, user=self.user)
        
         except:
             self.error = "oups une erreur s'est produite"
-
-        self.bill_amount = CommandManager().get_amount(bill=self.bill)
-        self.payed_amount = PaymentManager().get_payment(bill=self.bill)
         
-        if self.payed_amount:
-            self.rest_amount = self.bill_amount - self.payed_amount
-        
-            if self.rest_amount <= 0:
-                
-                BillManager().close_bill(bill=self.bill)
+        if payed:
+            self.bill_amount = CommandManager().get_amount(bill=self.bill)
+            self.payed_amount = PaymentManager().get_payment(bill=self.bill)
+            
+            if self.payed_amount:
+                self.rest_amount = self.bill_amount - self.payed_amount
+            
+                if self.rest_amount <= 0:
+                    
+                    BillManager().close_bill(bill=self.bill)
 
-                to_close = Table.objects.get(pk=self.table)
-                to_close.status = "open"
-                to_close.save()
+                    to_close = Table.objects.get(pk=self.table)
+                    to_close.status = "open"
+                    to_close.save()
 
-        
+            
         context = {
             'user': self.user,
             'amount': amount,
@@ -331,56 +336,67 @@ class OrderManager():
 class StaffManager():
 
     def all_data(self, request):
-
-        open_bills = Bill.objects.filter(status='open')
-        calls = Call.objects.filter(active=True)
         
-        orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
-        context = {
-            'orders': orders,
-            'bills': open_bills,
-            'calls': calls
-        }
-        return render(request, 'command/staff.html', context)
-    
+        if request.user.is_staff:
+            open_bills = Bill.objects.filter(status='open')
+            calls = Call.objects.filter(active=True)
+            
+            orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
+            context = {
+                'orders': orders,
+                'bills': open_bills,
+                'calls': calls
+            }
+            return render(request, 'command/staff.html', context)
+
+        else:
+            return index(request)
+
     def change_status(self, request):
         
-        if request.GET.get('close-call'):
-            call = request.GET.get('close-call')
-            try:
-                CallManager().close_call(call=call)
-            except Exception as e:
-                print(e)
-        else:
-            if request.GET.get('in-progress'):
-                order = request.GET.get('in-progress')
-                status = 'in-progress'
-            if request.GET.get('delivered'):
-                order = request.GET.get('delivered')
-                status = 'delivered'
-          
-            CommandManager().update_status(order_id=order, status=status)
+        if request.user.is_staff:
+            if request.GET.get('close-call'):
+                call = request.GET.get('close-call')
+                try:
+                    CallManager().close_call(call=call)
+                except Exception as e:
+                    print(e)
+            else:
+                if request.GET.get('in-progress'):
+                    order = request.GET.get('in-progress')
+                    status = 'in-progress'
+                if request.GET.get('delivered'):
+                    order = request.GET.get('delivered')
+                    status = 'delivered'
             
-        return self.all_data(request)
+                CommandManager().update_status(order_id=order, status=status)
+                
+            return self.all_data(request)
     
+        else:
+            return index(request)
+
     def pay_by_staff(self,request):
 
-      
-        bill_id = int(request.GET.get('bill'))
+        if request.user.is_staff:
+            bill_id = int(request.GET.get('bill'))
 
-        bill = Bill.objects.get(pk=bill_id)
-        amount = CommandManager().get_amount(bill=bill)
+            bill = Bill.objects.get(pk=bill_id)
+            amount = CommandManager().get_amount(bill=bill)
 
-        PaymentManager().payment_bill(user=request.user, bill=bill, amount=amount)
-        
-        
-        table = bill.table.number
-        TableConnectManager().close_connection_table(table=table)
-        
-        to_open =  Table.objects.get(pk=table)
-        to_open.status = 'open'
-        to_open.save()
-        
-        BillManager().close_bill(bill=bill)
+            PaymentManager().payment_bill(user=request.user, bill=bill, amount=amount)
+            
+            
+            table = bill.table.number
+            TableConnectManager().close_connection_table(table=table)
+            
+            to_open =  Table.objects.get(pk=table)
+            to_open.status = 'open'
+            to_open.save()
+            
+            BillManager().close_bill(bill=bill)
 
-        return self.all_data(request)
+            return self.all_data(request)
+        
+        else:
+            return index(request)
