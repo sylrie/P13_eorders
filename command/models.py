@@ -135,7 +135,7 @@ class Command(models.Model):
     """ Command """
     COMMAND_STATUS = [
         ('new', 'Nouvelle'),
-        ('in progress', 'en cours'),
+        ('in-progress', 'en cours'),
         ('delivered', 'Livrée'),
         ('payed', 'Payée'),
     ]
@@ -201,12 +201,12 @@ class CommandManager(models.Model):
             if user:
                 items = Command.objects.filter(user=user, bill=bill).exclude(status='payed').exclude(status='delivered')
             else:
-                items = Command.objects.filter(bill=bill, status=status).exclude(status='payed').exclude(status='delivered')
+                items = Command.objects.filter(bill=bill).exclude(status='payed').exclude(status='delivered')
         else:
             if user:
-                items = Command.objects.filter(user=user, bill=bill).exclude(status='new').exclude(status='in progress')
+                items = Command.objects.filter(user=user, bill=bill).exclude(status='new').exclude(status='in-progress')
             else:
-                items = Command.objects.filter(bill=bill).exclude(status='new').exclude(status='in progress')
+                items = Command.objects.filter(bill=bill).exclude(status='new').exclude(status='in-progress')
         
         items_qty = items.exclude(status='payed').aggregate(Count('status'))
         total_price = 0
