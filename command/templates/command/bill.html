@@ -30,7 +30,7 @@
 				<strong>{{ filter_name.name }}</strong>
 			</div>
 	
-			{% if not filter_name.filter == 'Table ' %}
+			{% if not filter_name.filter == 'Table ' and not filter_name.name == user %}
 			<div class="text-center col-10 p-0">
 				<a class="nav-link" href="{% url 'pay_bill' %}?add-bill={{ filter_name.name }}">
 					<i class="fas fa-user-plus"></i>
@@ -96,7 +96,7 @@
 			{% endfor %}
 		</div>
 	</div>
-
+	<hr class="divider">
 	<div class="container-fluid">
 		<div class="row d-flex justify-content-center align-items-center bg-dark mb-1">
 			<div class="col-4 text-center text-muted">{{ order_data.items_qty }}</div>
@@ -104,7 +104,7 @@
 			<div class="col-4 text-center text-muted">{{ order_data.total_price|floatformat:2 }} €</div>
 		</div>
 
-		<div class="container-fluid p-0" id="delivered_orders" style="display: none;">
+		<div class="container-fluid p-0" id="delivered_orders" style="display: block;">
 			{% for line in bill_data %}
 			{% if line.status == 'payed' or line.status == 'delivered' %}
 				{% if line.status == 'payed' %}
