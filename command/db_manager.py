@@ -206,3 +206,72 @@ class PaymentManager(models.Model):
                 order.save()
         except:
             pass
+
+
+class StaffManager():
+
+    def all_data(self, request):
+        
+        if request.user.is_staff:
+            open_bills = Bill.objects.filter(status='open')
+            calls = Call.objects.filter(active=True)
+            
+            orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
+            context = {
+                'orders': orders,
+                'bills': open_bills,
+                'calls': calls
+            }
+            return render(request, 'command/staff.html', context)
+
+        else:
+            return index(request)
+
+    def change_status(self, request):
+        
+        if request.user.is_staff:
+            if request.GET.get('close-call'):
+                call = request.GET.get('close-call')
+                try:
+                    CallManager().close_call(call=call)
+                except Exception as e:
+                    print(e)
+            else:
+                if request.GET.get('in-progress'):
+                    order = request.GET.get('in-progress')
+                    status = 'in-progress'
+                if request.GET.get('delivered'):
+                    order = request.GET.get('delivered')
+                    status = 'delivered'
+            
+                CommandManager().update_status(order_id=order, status=status)
+                
+            return self.all_data(request)
+    
+        else:
+            return index(request)
+
+    def pay_by_staff(self,request):
+
+        if request.user.is_staff:
+            bill_id = int(request.GET.get('bill'))
+
+            bill = Bill.objects.get(pk=bill_id)
+            amount = CommandManager().get_amount(bill=bill)
+
+            PaymentManager().payment_bill(user=request.user, bill=bill, amount=amount)
+            
+            
+            table = bill.table.number
+            TableConnectManager().close_connection_table(table=table)
+            
+            to_open =  Table.objects.get(pk=table)
+            to_open.status = 'open'
+            to_open.save()
+            
+            BillManager().close_bill(bill=bill)
+
+            return self.all_data(request)
+        
+        else:
+            return index(request)

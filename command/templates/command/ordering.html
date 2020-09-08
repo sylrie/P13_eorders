@@ -36,7 +36,7 @@
       
       {% if order_id %}
       <div class="d-flex col-2 justify-content-end px-2" onclick="displayElt('loading')">
-        <a href="{% url 'ordering' %}?del-product={{ order_id.id }}">
+        <a href="{% url 'ordering_del' %}?del-product={{ order_id.id }}">
           <i class="far fa-trash-alt py-1"></i>
         </a>
       </div>
