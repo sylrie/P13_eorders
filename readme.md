@@ -59,13 +59,9 @@
 
 ## SCREENSHOTS
 <p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
-</p>
-<p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
-</p>
-<p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
+  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
+  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
+  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
+  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
+  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
 </p>
