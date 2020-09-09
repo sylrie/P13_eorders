@@ -61,6 +61,9 @@
   <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.png">
 </p>
 
+> you can try it with:
+* **customer**: name: toto, password:mdp123456
+* **Staff**: name: manager, password:mdpadmin
 ## SCREENSHOTS
 <p align="center">
   <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
