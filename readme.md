@@ -31,10 +31,12 @@
   
 ## FEATURES
 <p><u>Visitors</u></p>
+
 * **See Menu**: the visitor can see the menu and comments
 * **authentication**: the visitor can signin or signup
 
 <p><u>Customers</u></p>
+
 * **Take a table**: the customer can take a table
 * **See Menu**: the customer can see the menu and comments
 * **Send Comment**: the customer can send a comment
@@ -46,6 +48,7 @@
 * **Pay bill**: the customer can pay the bill or a part of it (multiple choices)
 
 <p><u>Staff member</u></p>
+
 * **orders**: the Staff member can see orders and change status orders
 * **calls**: the Staff member can see calls and close them
 
