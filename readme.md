@@ -10,6 +10,7 @@
 <p align="center">
   <strong>The goal of Eorders is to make orders and manage them in a bar/restaurant</strong>
 </p>
+
 ## DEVICES
 > Responsive design <br>
 ![Extrasmall](https://img.shields.io/badge/Extrasmall-<576px-red.svg)
@@ -21,6 +22,8 @@
     <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/responsive-design.png">
 </p>
 
+* **Designed for Smartphones and Tablets** 
+
 ## TOOLS
 > Tools:
 <p align="center">
@@ -29,7 +32,7 @@
 ## FEATURES
 * <p>Visitors</p>
 * **See Menu**: the visitor can see the menu and comments
-
+* **authentication**: the visitor can signin or signup
 * <p>Customer</p>
 * **Take a table**: the customer can take a table
 * **See Menu**: the customer can see the menu and comments
@@ -45,11 +48,23 @@
 * **orders**: the Staff member can see orders and change status orders
 * **calls**: the Staff member can see calls and close them
 
-
 ## GET STARTED
 ![Server](https://img.shields.io/badge/Server-OVH-pink.svg)
 * The web app is here: [Eorders](https://eorders.herokuapp.com/)
 * or you can scan this Qrcode
 <p align="center">
   <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.png">
+</p>
+
+## SCREENSHOTS
+<p align="center">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.png">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.png">
+</p>
+<p align="center">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.png">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.png">
+</p>
+<p align="center">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.png">
 </p>
