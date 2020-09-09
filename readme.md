@@ -30,10 +30,11 @@
   <img width=50% src="https://github.com/sylrie/P8_Pur_beurre_platform/blob/master/docs/tools.png">
   
 ## FEATURES
-* <p>Visitors</p>
+<p><u>Visitors</u></p>
 * **See Menu**: the visitor can see the menu and comments
 * **authentication**: the visitor can signin or signup
-* <p>Customer</p>
+
+<p><u>Customers</u></p>
 * **Take a table**: the customer can take a table
 * **See Menu**: the customer can see the menu and comments
 * **Send Comment**: the customer can send a comment
@@ -44,7 +45,7 @@
 * **See orders**: the customer can look his orders or all table orders (status)
 * **Pay bill**: the customer can pay the bill or a part of it (multiple choices)
 
-* <p>Staff member</p>
+<p><u>Staff member</u></p>
 * **orders**: the Staff member can see orders and change status orders
 * **calls**: the Staff member can see calls and close them
 
@@ -53,18 +54,18 @@
 * The web app is here: [Eorders](https://eorders.herokuapp.com/)
 * or you can scan this Qrcode
 <p align="center">
-  <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.png">
+  <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.PNG">
 </p>
 
 ## SCREENSHOTS
 <p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.png">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.png">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
 </p>
 <p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.png">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.png">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
 </p>
 <p align="center">
-    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.png">
+    <img width=100% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
 </p>
