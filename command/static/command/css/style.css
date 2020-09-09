@@ -53,7 +53,8 @@ h5 {
 }
 #comments {
   max-height: 300px;
-  
+  box-shadow: -2px -2px 0.5rem rgba(221, 221, 221, 0.3),
+    2px 2px 0.5rem  rgba(221, 221, 221, 0.3);
   text-overflow: ellipsis;
   overflow: auto;
 }
