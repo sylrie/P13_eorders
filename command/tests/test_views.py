@@ -74,7 +74,7 @@ class TestViews(TestCase):
 
         self.product.save()
         self.table.save()
-
+        
         #acces no user
         response = self.client.get(
             '/command/open_bill?table=1'
@@ -115,4 +115,5 @@ class TestViews(TestCase):
         #chek_bill empty
         response = self.client.get(reverse('check_bill'))
         self.assertTemplateUsed(response, 'command/ordering.html')
+
 
