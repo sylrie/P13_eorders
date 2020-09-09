@@ -56,8 +56,9 @@
 ![Server](https://img.shields.io/badge/Server-OVH-pink.svg)
 * The web app is here: [Eorders](https://eorders.herokuapp.com/)
 * or you can scan this Qrcode
+
 <p align="center">
-  <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.PNG">
+  <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.png">
 </p>
 
 ## SCREENSHOTS
