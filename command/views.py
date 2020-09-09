@@ -4,6 +4,7 @@ from django.db.models import Sum, Count
 from .models import *
 from .db_manager import *
 from product.models import ProductManager
+from message.models import Comment
 from .scripts import table_connection, closing_table
 from .forms import JoinTable, PayBill
 #from django.contrib.auth.decorators import login_required
@@ -81,7 +82,7 @@ class OrderManager():
         self.bill = None
         self.message = None
         
-        if self.user:
+        if self.user: 
             
             try:
                 self.table = TableConnectManager().get_connection_table(user=self.user)
@@ -107,6 +108,8 @@ class OrderManager():
         self.family = None
         self.error = None
         self.calls = None
+        self.comments = Comment.objects.filter(visible=True)
+
 
         if request.GET.get('add-product'):
            
@@ -161,9 +164,10 @@ class OrderManager():
                 'menu': self.menu,
                 'order_id': self.order_id,
                 'new_data': self.new_data,
-                'family': self.family
+                'family': self.family,
+                'comments': self.comments
             }
-            
+         
             return render(request, 'command/ordering.html', context)
     
     def calling(self,request):
@@ -342,12 +346,13 @@ class StaffManager():
         if request.user.is_staff:
             open_bills = Bill.objects.filter(status='open')
             calls = Call.objects.filter(active=True)
-            
+            comments = Comment.objects.all()
             orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
             context = {
                 'orders': orders,
                 'bills': open_bills,
-                'calls': calls
+                'calls': calls,
+                'comments': comments
             }
             return render(request, 'command/staff.html', context)
 

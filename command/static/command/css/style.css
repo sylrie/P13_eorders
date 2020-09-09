@@ -51,7 +51,12 @@ h5 {
   margin-bottom: 3rem;
   
 }
-
+#comments {
+  max-height: 300px;
+  
+  text-overflow: ellipsis;
+  overflow: auto;
+}
 .masthead {
   color: var(--biscuit);
   text-shadow: 3px 2px 2px rgba(0,0,0, 0.8),

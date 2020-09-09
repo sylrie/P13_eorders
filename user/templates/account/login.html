@@ -26,8 +26,16 @@
     <div class="row d-flex justify-content-center text-center mb-3 mx-1">
       <a href="/accounts/signup/"><i><u>Inscrivez-vous</u></i></a>
     </div>
-  
-    
+    <div class="row d-flex justify-content-center text-center mx-1">
+      <img src="{% static 'command/img/facebook.png' %}" style="max-width: 280px;" alt="" onclick="displayElt('facebook')">
+     
+    </div>
+    <div class="container-fluid" id="facebook" style="display: none;" >
+      <div class="row d-flex justify-content-center text-warning text-center mx-1" >
+        <span>Impossible en mode "Demo"</span>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center text-center pt-1 mx-1">ou</div>
 <!-- Social Accounts (Disabled)
 <p>Merci d'ouvrir une session avec l'un de vos comptes sociaux. Vous pouvez aussi <a href="/accounts/signup/">ouvrir un compte</a> example.com puis vous connecter ci-dessous :</p>
   <div class="socialaccount_ballot">

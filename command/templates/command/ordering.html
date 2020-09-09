@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<section class="page-section h-100">
+<section class="page-section">
   <div class="container-fluid">
     <div class="row d-flex justify-content-around" id="page-up">
       <span class="">Nombre d'article: <strong>+ {{ new_data.items_qty }}</strong></span>
@@ -150,5 +150,8 @@
   {% endfor %}
   
 </section>
+
+{% include 'command/comment.html' %}
+
 
 {% endblock %}

@@ -62,9 +62,9 @@
             </li>
             {% endif %}
 
-            {% if bill or bill_amount and not new_data.items_qty %}
+            {% if bill_amount and not new_data.items_qty %}
             <li class="nav-item p-2">
-              <a class="nav-link" href="{% url 'check_bill' %}">
+              <a class="nav-link js-scroll-trigger" href="{% url 'check_bill' %}">
                 <i class="fas fa-credit-card" title="Payer"></i>
               </a>
             </li>
@@ -72,7 +72,7 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item p-2">
-              <a class="nav-link" href="/accounts/logout/">
+              <a class="nav-link js-scroll-trigger" href="/accounts/logout/">
                 <i class="fas fa-sign-out-alt" title="Se déconnecter"></i>
               </a>
             </li>
@@ -80,7 +80,7 @@
             
             {% if user.is_superuser %}
             <li class="nav-item p-2">
-              <a class="nav-link" href="/admin/">
+              <a class="nav-link js-scroll-trigger" href="/admin/">
                 <i class="fas fa-tools" title="Administrateur"></i>
               </a>
             </li>

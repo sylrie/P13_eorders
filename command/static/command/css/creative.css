@@ -9597,14 +9597,14 @@ hr.light {
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
-  color: #6c757d;
+  color: var(--rooibos);
   font-weight: 700;
   font-size: 1.2rem;
   padding: 0.75rem 0;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
-  color: var(--rooibos);
+  color: var(--biscuit);
 }
 
 #mainNav .navbar-nav .nav-item .nav-link.active {
@@ -9623,11 +9623,11 @@ hr.light {
     color:var(--rooibos);
   }
   #mainNav .navbar-nav .nav-item .nav-link {
-    color: var(--caramel);
+    color: var(--rooibos);
     padding: 0 1rem;
   }
   #mainNav .navbar-nav .nav-item .nav-link:hover {
-    color:var(--rooibos);
+    color:var(--biscuit);
   }
   #mainNav .navbar-nav .nav-item:last-child .nav-link {
     padding-right: 0;

@@ -7,7 +7,4 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'message', 'date', 'visible')
     list_filter = ('visible', 'date')
     search_fields = ('user', 'message')
-    actions = ['hide_comments']
-
-    def approve_comments(self, request, queryset):
-        queryset.update(visible=False)
+    
