@@ -5,7 +5,7 @@ from .models import *
 from .db_manager import *
 from product.models import ProductManager
 from message.models import Comment
-from .scripts import table_connection, closing_table
+from .scripts import table_connection
 from .forms import JoinTable, PayBill
 #from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -36,7 +36,7 @@ def index(request, error=None):
             return render(request, 'command/home.html', context)
 
 def openning_bill(request):
-    
+    """ select a table and open a bill if bill not exist """
     if not request.user.is_authenticated:
          return index(request)
     if request.method == 'POST':
@@ -74,7 +74,7 @@ def openning_bill(request):
 
 
 class OrderManager():
-
+    """ Manage customer views """
     def get_data(self, request):
         self.user = request.user
         self.table = None
@@ -100,6 +100,7 @@ class OrderManager():
             return index(request)
             
     def ordering(self, request):
+        """ Manager orders """
         self.get_data(request)
         self.menu = ProductManager().get_menu()
         self.product = None
@@ -171,6 +172,7 @@ class OrderManager():
             return render(request, 'command/ordering.html', context)
     
     def calling(self,request):
+        """ Manage calls """
         self.get_data(request)
         self.name =None
 
@@ -196,6 +198,7 @@ class OrderManager():
             return redirect('ordering')
 
     def get_bill(self, request):
+        """ get orders data, qty, price """
         self.get_data(request)
         self.filter_name = {
             "name": self.table,
@@ -235,6 +238,7 @@ class OrderManager():
         return render(request, 'command/bill.html', context)
 
     def check_bill(self, request):
+        """ get bill amount """
         self.get_data(request)
 
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
@@ -269,7 +273,8 @@ class OrderManager():
 
         return render(request, 'command/check_bill.html', context)
 
-    def pay_bill(self, request): 
+    def pay_bill(self, request):
+        """ manage payment """
         self.get_data(request)
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.error = None
@@ -340,7 +345,7 @@ class OrderManager():
             
 
 class StaffManager():
-
+    """ Manage staff views """
     def all_data(self, request):
         
         if request.user.is_staff:
@@ -360,7 +365,7 @@ class StaffManager():
             return index(request)
 
     def change_status(self, request):
-        
+        """ change an order/call status """
         if request.user.is_staff:
             if request.GET.get('close-call'):
                 call = request.GET.get('close-call')
@@ -384,7 +389,7 @@ class StaffManager():
             return index(request)
 
     def pay_by_staff(self,request):
-
+        """ close bill  table connextions et reopen table """
         if request.user.is_staff:
             bill_id = int(request.GET.get('bill'))
 

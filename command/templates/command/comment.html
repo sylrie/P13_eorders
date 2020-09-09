@@ -23,9 +23,9 @@
             {% else %}
             <div class="row d-flex justify-content-center border text-center text-muted my-2">
             {% endif %}
-                <div class="new col-4 text-left">{{ comment.user }}</div>
-                <div class="new col-8 text-right">{{ comment.date }}</div>
-                <div class="col-11 mb-1 ">{{ comment.message }}</div>
+                <div class="new col-4 p-1 text-left">{{ comment.user }}</div>
+                <div class="new col-8 p-1 text-right">{{ comment.date }}</div>
+                <div class="col-11 mb-1 p-1 text-left">{{ comment.message }}</div>
                 {% if user.is_superuser %}
                 <div class="col-11 mb-1 ">
                     <a href="{% url 'check_comment' %}?change={{ comment.id}}">{{ comment.visible }}</a>

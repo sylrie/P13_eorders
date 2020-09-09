@@ -55,15 +55,16 @@
 ## GET STARTED
 ![Server](https://img.shields.io/badge/Server-OVH-pink.svg)
 * The web app is here: [Eorders](https://eorders.herokuapp.com/)
-* or you can scan this Qrcode
+* or you can scan this **Qrcode**
 
 <p align="center">
   <img width=30% src="https://github.com/sylrie/P13_eorders/blob/master/docs/QR-accueil.png">
 </p>
 
 > you can try it with:
-* **customer**: name: toto, password:mdp123456
-* **Staff**: name: manager, password:mdpadmin
+* **customer** - name: **toto**, password: **mdp123456**
+* **Staff** - name: **manager**, password: **mdpadmin**
+
 ## SCREENSHOTS
 <p align="center">
   <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
