@@ -46,6 +46,12 @@ h4 {
 h5 {
   font-size: 1.2rem;
 }
+
+.errorlist {
+  color: var(--moules);
+  padding-left: 10px;
+  margin-bottom: 0;
+}
 .menu {
   background-color: var(--caramel);
   margin-bottom: 3rem;
