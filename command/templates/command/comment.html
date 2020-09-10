@@ -20,14 +20,14 @@
         {% for comment in comments %}
             {% if comment.visible %}
                 {% if comment.user.is_superuser%}
-                <div class="row d-flex justify-content-center bg-dark text-info border-top text-center">
+                <div class="row d-flex justify-content-center rounded border border-secondary bg-dark mb-2 text-info text-center">
                 {% elif comment.user == user %}
-                <div class="new row d-flex justify-content-center bg-dark border-top text-center">
+                <div class="new row d-flex justify-content-center rounded border border-secondary bg-dark mb-2 text-center">
                 {% else %}
-                <div class="row d-flex justify-content-center bg-dark border-top text-center">
+                <div class="row d-flex justify-content-center rounded border border-secondary bg-dark mb-2 text-center">
                 {% endif %}
             {% else %}
-            <div class="row d-flex justify-content-center bg-dark  border-top text-center text-muted ">
+            <div class="row d-flex justify-content-center rounded border border-secondary bg-dark mb-2 text-center text-muted ">
             {% endif %}
                 {% if comment.user.is_superuser%}
                 <div class="col-4 p-1 text-left"><i><u>MonP'tiBar</u></i></div>
@@ -37,7 +37,7 @@
                 <div class="col-8 p-1 text-right"><i><u>{{ comment.date }}</u></i></div> 
                 <div class="col-11 mb-1 p-1 text-left">{{ comment.message }}</div>
                 {% if user.is_superuser %}
-                <div class="col-11 mb-1 ">
+                <div class="col-11 text-right mb-1 ">
                     <a href="{% url 'check_comment' %}?change={{ comment.id}}">{{ comment.visible }}</a>
                 </div>
                 {% endif %}

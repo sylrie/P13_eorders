@@ -109,7 +109,7 @@ class OrderManager():
         self.family = None
         self.error = None
         self.calls = None
-        self.comments = Comment.objects.filter(visible=True)
+        self.comments = Comment.objects.filter(visible=True)[:15]
 
 
         if request.GET.get('add-product'):
@@ -359,7 +359,7 @@ class StaffManager():
         if request.user.is_staff:
             open_bills = Bill.objects.filter(status='open')
             calls = Call.objects.filter(active=True)
-            comments = Comment.objects.all()
+            comments = Comment.objects.all()[:20]
             orders = Command.objects.all().exclude(status='payed').exclude(status=('delivered')).order_by('-status')
             context = {
                 'orders': orders,
