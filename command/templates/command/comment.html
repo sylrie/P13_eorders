@@ -11,7 +11,7 @@
         {% endif %}
     </div>
 
-    <div class="container-fluid col-11 my-2" id="comments">
+    <div class="container-fluid rounded col-11 my-2" id="comments">
         {% if not comments %}
         <div class="row d-flex justify-content-center text-center text-muted" >
             Il n'y a pas encore de commentaire
@@ -19,12 +19,22 @@
         {% else %}
         {% for comment in comments %}
             {% if comment.visible %}
-            <div class="row d-flex justify-content-center bg-dark  border-top text-center">
+                {% if comment.user.is_superuser%}
+                <div class="row d-flex justify-content-center bg-dark text-info border-top text-center">
+                {% elif comment.user == user %}
+                <div class="new row d-flex justify-content-center bg-dark border-top text-center">
+                {% else %}
+                <div class="row d-flex justify-content-center bg-dark border-top text-center">
+                {% endif %}
             {% else %}
             <div class="row d-flex justify-content-center bg-dark  border-top text-center text-muted ">
             {% endif %}
-                <div class="new col-4 p-1 text-left">{{ comment.user }}</div>
-                <div class="new col-8 p-1 text-right">{{ comment.date }}</div>
+                {% if comment.user.is_superuser%}
+                <div class="col-4 p-1 text-left"><i><u>MonP'tiBar</u></i></div>
+                {% else %}
+                <div class="col-4 p-1 text-left"><i><u>{{ comment.user }}</u></i></div>
+                {% endif %}
+                <div class="col-8 p-1 text-right"><i><u>{{ comment.date }}</u></i></div> 
                 <div class="col-11 mb-1 p-1 text-left">{{ comment.message }}</div>
                 {% if user.is_superuser %}
                 <div class="col-11 mb-1 ">

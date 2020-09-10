@@ -71,11 +71,10 @@ class CommandManager(models.Model):
 
     def del_order(self, order_id):
         """ cancel an order """
-        to_cancel = Command.objects.get(id=order_id, status='new')
-        
-        BillManager().amount_update(bill=to_cancel.bill.id, amount=-to_cancel.price)
-
+       
+        to_cancel = Command.objects.get(id=order_id, status='new')     
         to_cancel.delete()
+        
         return to_cancel.product
        
     def add_bill(self, user, bill, name):

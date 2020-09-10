@@ -135,7 +135,7 @@ class OrderManager():
 
             elif request.GET.get('del-product-bill'):
                 self.order_id = request.GET.get('del-product-bill')
-                
+                print(self.order_id)
             if self.order_id:
                 try:
                     self.product = CommandManager().del_order(order_id=self.order_id)
@@ -145,6 +145,7 @@ class OrderManager():
                     self.order_id = None
                 except:
                     self.error = "La commande à déjà été prise en compte ou supprimée"
+                    
         
         if request.GET.get('del-product-bill'):
             return self.get_bill(request)
@@ -224,6 +225,12 @@ class OrderManager():
             self.bill_data =CommandManager().get_bill_data(bill=self.bill)
         
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
+        self.payed_amount = PaymentManager().get_payment(bill=self.bill)
+        
+        if self.payed_amount:
+            self.rest_amount = self.bill_amount - self.payed_amount
+        else:
+            self.rest_amount = self.bill_amount
 
         context = {
             'bill_data': self.bill_data,
@@ -234,6 +241,7 @@ class OrderManager():
             'table': self.table,
             'code': self.code,
             'bill_amount': self.bill_amount,
+            'rest_amount': self.rest_amount
         }   
         return render(request, 'command/bill.html', context)
 
@@ -253,11 +261,11 @@ class OrderManager():
             self.rest_amount = self.bill_amount
 
         self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).exclude(status='payed').aggregate(Sum('price'))
-        
+        print(self.bill_user)
         self.customers = TableConnectManager().get_customers(table=self.table)
         self.nbr_user = len(self.customers)
         
-        self.split_bill = self.bill_amount/self.nbr_user
+        self.split_bill = self.rest_amount/self.nbr_user
       
 
         context = {

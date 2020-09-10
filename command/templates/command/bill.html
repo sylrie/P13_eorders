@@ -46,7 +46,11 @@
 
 		<div class="row d-flex justify-content-between align-items-center py-2">
 			<span class="col-5 text-center">Nombre d'article: <strong>{{ order_data.items_qty|add:new_data.items_qty }}</strong></span>
-			<span class="col-5 text-center">Note: <strong>{{ bill_amount|floatformat:2 }} €</strong></span>
+			{% if bill_amount %}
+			<span class="col-5 text-center">Note: <strong>{{ rest_amount|floatformat:2 }} €</strong></span>
+			{% else %}
+			<span class="col-5 text-center">Note: <strong>0 €</strong></span>
+			{% endif %}
 		</div>
 	</div>
 
