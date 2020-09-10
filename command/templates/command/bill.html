@@ -34,7 +34,7 @@
 			
 			<div class="text-center col-11 p-0">
 				<a href="{% url 'get_bill' %}">
-					>> Voir les commandes pour la table {{ table }} <<
+					<i>>> Voir pour la table {{ table }} <<</i>
 				</a>
 			</div>
 			{% else %}
@@ -80,7 +80,8 @@
 					</span>
 
 					
-					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" class="col-3 text-center px-0" style="text-transform: capitalize;">
+					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" 
+						class="col-3 text-center px-0" style="text-transform: capitalize;">
 						<i>{{ line.user }}</i>
 					</a>
 				
@@ -127,7 +128,8 @@
 						{{ line.product.name }}
 					</span>
 
-					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}" class="col-3 text-center px-0" style="text-transform: capitalize;">
+					<a href="{% url 'get_bill' %}?filter-name={{ line.user }}"
+						class="col-3 text-center px-0" style="text-transform: capitalize;">
 						<i>{{ line.user }}</i>
 					</a>
 
