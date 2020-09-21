@@ -21,6 +21,7 @@ class Table(models.Model):
         ordering = ['number']
 
     def __str__(self): 
+        
         return ("Table: {} - {} - Code: {}".format(
             str(self.number),
             str(self.status),

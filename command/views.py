@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db.models import Sum, Count
+
 from .models import *
 from .db_manager import *
 from product.models import ProductManager
 from message.models import Comment
 from .scripts import table_connection
 from .forms import JoinTable, PayBill
-#from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request, error=None):

@@ -32,7 +32,6 @@ def table_connection(table, user, new=False):
             table.save()
 
             return code
-    else:
-        
+    else:    
         pass
 
