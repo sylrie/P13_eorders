@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Comment, CommentManager
 from .forms import NewComment
 from command.views import OrderManager, StaffManager
