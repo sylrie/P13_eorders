@@ -78,10 +78,11 @@
 
 ## SCREENSHOTS
 <p align="center">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
-  <img height=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/manager.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/manager.PNG">
+  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/Pay.PNG">
 </p>
