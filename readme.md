@@ -8,7 +8,13 @@
   <img width=50% src="https://github.com/sylrie/P13_eorders/blob/master/docs/title.png">
 </p>
 <p align="center">
-  <strong>The goal of Eorders is to make orders and manage them in a bar/restaurant</strong>
+  <strong>The goal of Eorders is to make orders and manage them in a bar/restaurant</strong><br>
+  Due to COVID 19 situation,<br>
+  Limit interactions between staff members and customers<br>
+  Avoid contact with a menu<br>
+  Easily order at any time<br>
+  Visitor traceability
+
 </p>
 
 ## DEVICES
@@ -32,13 +38,15 @@
 ## FEATURES
 <p><u>Visitors</u></p>
 
-* **See Menu**: the visitor can see the menu and comments
+* **See Menu**: the visitor can see the menu
+* **See Comment**: the visitor can see comments
 * **authentication**: the visitor can signin or signup
 
 <p><u>Customers</u></p>
 
-* **Take a table**: the customer can take a table
-* **See Menu**: the customer can see the menu and comments
+* **Get a table**: the customer can take a table
+* **See Menu**: the customer can see the menu
+* **See Comment**: the customer can see comments
 * **Send Comment**: the customer can send a comment
 * **Make an order**: the customer can make an order
 * **Delete an order**: the customer can delete an order if it's still a new order
@@ -51,6 +59,10 @@
 
 * **orders**: the Staff member can see orders and change status orders
 * **calls**: the Staff member can see calls and close them
+* **See Comment**: the Staff can see comments
+* **Send Comment**: the Staff can send a comment
+* **hide Comment**: the Staff can hide a comment
+
 
 ## GET STARTED
 ![Server](https://img.shields.io/badge/Server-OVH-pink.svg)
