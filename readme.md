@@ -9,12 +9,11 @@
 </p>
 <p align="center">
   <strong>The goal of Eorders is to make orders and manage them in a bar/restaurant</strong><br>
-  Due to COVID 19 situation,<br>
+  Due to COVID 19 situation:<br>
   Limit interactions between staff members and customers<br>
   Avoid contact with a menu<br>
-  Easily order at any time<br>
+  Easily ordering at any time<br>
   Visitor traceability
-
 </p>
 
 ## DEVICES
