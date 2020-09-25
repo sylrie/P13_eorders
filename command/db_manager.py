@@ -162,7 +162,7 @@ class TipsManager(models.Model):
 
     def get_tip_amount(self, bill):
         amount = Tips.objects.filter(bill=bill).aggregate(Sum('amount'))
-        print(amount)
+    
         return amount
 
 class CallManager(models.Model):

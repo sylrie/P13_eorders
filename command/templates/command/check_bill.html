@@ -24,11 +24,11 @@
 		</div>
 	
 		<div class="row d-flex justify-content-between align-items-center p-2" id="page-up">
-			<div class="">
+			<div class="justify-content-between">
 				<span class="">Total: <strong>{{ bill_amount }} €</strong></span>
 				{% if tip_amount %}
 				<br>
-				<span>Pour boire: <strong>{{ tip_amount }} €</strong></span>
+				<span><i class="fas fa-piggy-bank" style="font-size: large;"></i> : <strong>{{ tip_amount }} €</strong></span>
 				{% endif %}
 			</div>
 			<span class="rounded border bg-dark p-1"><b>A payer: {{ rest_amount }} €</b></span>
@@ -68,7 +68,9 @@
 					<span><b>{{ bill_user }} €</b></span>
 					{% if tip_user.amount > 0 %}
 					<br>
-					<span><i class="fas fa-piggy-bank"></i> : {{ tip_user.amount }} €</span>
+					<span  style="font-size: 80%;">
+						<i class="fas fa-piggy-bank" style="font-size: large;"></i> : {{ tip_user.amount }} €
+					</span>
 					{% endif %}
 				</div>
 				<span class="col-2 pt-1 text-center">
