@@ -321,6 +321,7 @@ class OrderManager():
         self.get_data(request)
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.error = None
+        amount = None
         payed = False
         try:
             if request.GET.get('add-bill'):
