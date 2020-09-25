@@ -79,17 +79,17 @@ class CommandManager(models.Model):
        
     def add_bill(self, user, bill, name):
         """ change user on orders """
-        try:
-            old_user = User.objects.get(username=name.lower())
-            print(old_user)
-            to_change = Command.objects.filter(bill=bill, user=old_user)
-            
-            to_change.update(user=user)
-            connection = TableConnect.objects.get(user=old_user, status='on')
-            connection.status = 'off'
-            connection.save()
-        except Exception as e:
-            print(e)
+       
+        old_user = User.objects.get(username=name.lower())
+        to_change = Command.objects.filter(bill=bill, user=old_user)
+        
+        to_change.update(user=user)
+        to_change.save()
+        
+        connection = TableConnect.objects.get(user=old_user, status='on')
+        connection.status = 'off'
+        connection.save()
+       
 
     def order_data(self, bill, status=None, user=None):
         """ get qty and price """
