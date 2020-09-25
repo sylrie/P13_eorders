@@ -138,7 +138,31 @@ class CommandManager(models.Model):
             order.save()
         except Exception as e:
             print(e)
+        
 
+class TipsManager(models.Model):
+    
+    def new_tip(self, user, bill, tip):
+        """ add a new tip """
+        exist_tip = Tips.objects.get(user=user, bill=bill)
+        if exist_tip:
+            exist_tip.amount = tip
+            exist_tip.save()
+        else:
+            try:
+                new = Tips.objects.create(
+                    user=user,
+                    bill=bill,
+                    amount=tip,
+                    )
+                new.save()
+            except Exception as e:
+                print(e)
+
+    def get_tip_amount(self, bill):
+        amount = Tips.objects.filter(bill=bill).aggregate(Sum('amount'))
+        print(amount)
+        return amount
 
 class CallManager(models.Model):
     """ Manage calls """

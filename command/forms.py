@@ -4,7 +4,8 @@ class JoinTable(forms.Form):
     table = forms.CharField(label='taken_table')
     code = forms.CharField(label='code', max_length='5')
 
-class PayBill(forms.Form):
-    amount = forms.FloatField(label='amount')
+class TipBill(forms.Form):
     tip = forms.FloatField(label='tip')
-    
+
+
+

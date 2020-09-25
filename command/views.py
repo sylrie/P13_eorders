@@ -7,7 +7,7 @@ from .db_manager import *
 from product.models import ProductManager
 from message.models import Comment
 from .scripts import table_connection
-from .forms import JoinTable, PayBill
+from .forms import JoinTable, TipBill
 # Create your views here.
 
 def index(request, error=None):
@@ -72,7 +72,6 @@ def openning_bill(request):
     
     return OrderManager().ordering(request)
 
-
 class OrderManager():
     """ Manage customer views """
     def get_data(self, request):
@@ -135,7 +134,7 @@ class OrderManager():
 
             elif request.GET.get('del-product-bill'):
                 self.order_id = request.GET.get('del-product-bill')
-                print(self.order_id)
+            
             if self.order_id:
                 try:
                     self.product = CommandManager().del_order(order_id=self.order_id)
@@ -250,18 +249,36 @@ class OrderManager():
         self.get_data(request)
 
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
+        self.tip_amount = TipsManager().get_tip_amount(bill=self.bill)
+        self.tip_amount = self.tip_amount['amount__sum']
         if not self.bill_amount:
             return self.ordering(request)
 
         self.payed_amount = PaymentManager().get_payment(bill=self.bill)
         
         if self.payed_amount:
-            self.rest_amount = self.bill_amount - self.payed_amount
+            if self.tip_amount:
+                self.rest_amount = self.bill_amount + self.tip_amount - self.payed_amount
+            else:
+                self.rest_amount = self.bill_amount - self.payed_amount
         else:
-            self.rest_amount = self.bill_amount
+            if self.tip_amount:
+                
+                self.rest_amount = self.bill_amount + self.tip_amount
+            else:
+                self.rest_amount = self.bill_amount
 
         self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).exclude(status='payed').aggregate(Sum('price'))
-        print(self.bill_user)
+        try:
+            self.tip_user = Tips.objects.get(user=self.user, bill=self.bill)
+        except:
+            self.tip_user = None
+        
+        if self.tip_user:
+            self.bill_user = self.bill_user['price__sum'] + self.tip_user.amount
+        else:
+            self.bill_user = self.bill_user['price__sum']
+
         self.customers = TableConnectManager().get_customers(table=self.table)
         self.nbr_user = len(self.customers)
         
@@ -271,15 +288,33 @@ class OrderManager():
         context = {
             'user':self.user,
             'bill_amount': self.bill_amount,
+            'tip_amount':self.tip_amount,
             'payed_amount': self.payed_amount,
             'rest_amount': self.rest_amount,
-            'bill_user': self.bill_user['price__sum'],
+            'bill_user': self.bill_user,
+            'tip_user': self.tip_user,
             'customers': self.customers,
             'nbr_user': self.nbr_user,
             'split_bill': self.split_bill,
         }
 
         return render(request, 'command/check_bill.html', context)
+
+    def tip_bill(self, request):
+        """ Manage tips """
+        self.get_data(request)
+
+        if request.method == 'POST':
+            form = TipBill(request.POST)
+            if form.is_valid():
+                tip = form.cleaned_data['tip']
+                if tip >= 0:
+                    TipsManager().new_tip(user=self.user, bill=self.bill, tip=tip)
+                else:
+                    pass
+            else:
+                pass
+        return self.check_bill(request)
 
     def pay_bill(self, request):
         """ manage payment """
@@ -342,7 +377,6 @@ class OrderManager():
                     to_close = Table.objects.get(pk=self.table)
                     to_close.status = "open"
                     to_close.save()
-
             
         context = {
             'user': self.user,

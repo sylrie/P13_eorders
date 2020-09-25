@@ -13,6 +13,7 @@ urlpatterns = [
     path('command/calling', views.OrderManager().calling, name='calling'),
     path('command/get_bill', views.OrderManager().get_bill, name='get_bill'),
     path('command/check_bill', views.OrderManager().check_bill, name='check_bill'),
+    path('command/tip_bill', views.OrderManager().tip_bill, name='tip_bill'),
     path('command/pay_bill', views.OrderManager().pay_bill, name='pay_bill'),
     
     path('command/all_data', views.StaffManager().all_data, name='all_data'),
