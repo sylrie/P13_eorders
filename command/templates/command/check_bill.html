@@ -28,7 +28,7 @@
 				<span class="">Total: <strong>{{ bill_amount }} €</strong></span>
 				{% if tip_amount %}
 				<br>
-				<span><i class="fas fa-piggy-bank" style="font-size: large;"></i> : <strong>{{ tip_amount }} €</strong></span>
+				<span><i class="fas fa-piggy-bank" style="font-size: x-large;"></i> : <strong>{{ tip_amount }} €</strong></span>
 				{% endif %}
 			</div>
 			<span class="rounded border bg-dark p-1"><b>A payer: {{ rest_amount }} €</b></span>
@@ -53,7 +53,7 @@
 					<label for="tip"></label>
 					<input type="number" step="any" id="tip" name="tip"
 					placeholder='0' required style="width: 60px;"> €
-					<button class="btn rounded m-2 p-1"><i class="fas fa-piggy-bank"></i></button>
+					<button class="btn rounded m-2 p-1"><i class="fas fa-piggy-bank pr-1" style="font-size: x-large;"></i></button>
 				  </form>
 			</span>
 		</div>
@@ -88,7 +88,7 @@
 				{% endif %}
 				<div class="row w-100 d-flex justify-content-center text-center text-muted" id='other-userbutton'
 					onclick="displayElt('other-user')">
-					<i>Ajouter un client a votre note ?</i>
+					<i>>> Ajouter un client a votre note ?</i>
 				</div>
 				<div class="" id="other-user" style="display: none;">
 				{% for customer in customers %}

@@ -17,6 +17,13 @@ class TestUrls(TestCase):
             'check_bill'
             )
 
+    def test_tip_bill_url(self):
+        resolver_match = resolve('/command/tip_bill')
+        self.assertEqual(
+            resolver_match.func.__name__,
+            'tip_bill'
+            )
+
     def test_pay_bill_url(self):
         resolver_match = resolve('/command/pay_bill')
         self.assertEqual(
