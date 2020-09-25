@@ -7,6 +7,7 @@ admin.site.register(Table)
 admin.site.register(TableConnect)
 admin.site.register(Payment)
 admin.site.register(Call)
+admin.site.register(Tips)
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):

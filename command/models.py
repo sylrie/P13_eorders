@@ -145,4 +145,7 @@ class Tips(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)        
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return str(self.user)
