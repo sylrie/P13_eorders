@@ -81,6 +81,7 @@ class CommandManager(models.Model):
         """ change user on orders """
         try:
             old_user = User.objects.get(username=name.lower())
+            print(old_user)
             to_change = Command.objects.filter(bill=bill, user=old_user)
             
             to_change.update(user=user)

@@ -53,6 +53,7 @@
 * **Cancel calls**: the customer can cancel calls
 * **See orders**: the customer can look his orders or all table orders (status)
 * **Pay bill**: the customer can pay the bill or a part of it (multiple choices)
+* **Add customer bill**: the customer can add an other customer's bill to his own bill
 
 <p><u>Staff member</u></p>
 

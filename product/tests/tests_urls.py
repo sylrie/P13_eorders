@@ -6,7 +6,7 @@ from django.urls import resolve, reverse
 class TestUrls(TestCase):
 
     def test_menu_url(self):
-        resolver_match = resolve('/command/menu')
+        resolver_match = resolve('/product/menu')
         self.assertEqual(
             resolver_match.func.__name__,
             'menu'
