@@ -65,7 +65,7 @@
 
 
 ## GET STARTED
-![Server](https://img.shields.io/badge/Server-OVH-pink.svg)
+![Server](https://img.shields.io/badge/Server-Heroku-pink.svg)
 * The web app is here: [Eorders](https://eorders.herokuapp.com/)
 * or you can scan this **Qrcode**
 
