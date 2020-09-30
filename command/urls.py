@@ -1,11 +1,13 @@
-""" urls for user app """
+""" urls for command app """
 from django.urls import path
 from . import views
 
-APP_NAME = 'order'
+APP_NAME = 'command'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    
+    # OrderManager
     path('command/open_bill', views.openning_bill, name='openning_bill'),
     path('command/ordering', views.OrderManager().ordering, name='ordering'),
     path('command/ordering_add', views.OrderManager().ordering, name='ordering_add'),
@@ -16,8 +18,8 @@ urlpatterns = [
     path('command/tip_bill', views.OrderManager().tip_bill, name='tip_bill'),
     path('command/pay_bill', views.OrderManager().pay_bill, name='pay_bill'),
     
+    #StaffManager
     path('command/all_data', views.StaffManager().all_data, name='all_data'),
     path('command/change_status', views.StaffManager().change_status, name='change_status'),
     path('command/pay_by_staff', views.StaffManager().pay_by_staff, name='pay_by_staff'),
-   
 ]
