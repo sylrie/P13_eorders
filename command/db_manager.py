@@ -85,7 +85,6 @@ class CommandManager(models.Model):
             to_change = Command.objects.filter(bill=bill, user=old_user)
        
             to_change.update(user=user)
-            to_change.save()
             
             connection = TableConnect.objects.get(user=old_user, status='on')
             connection.status = 'off'
