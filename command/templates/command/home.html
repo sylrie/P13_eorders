@@ -25,9 +25,32 @@
     </div>
   </section>
 
+  {% if open_table and taken_table %}
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-around">  
+      <div class="d-flex col-9 p-0 m-1 rounded bg-dark justify-content-center text-center align-items-center"
+          style="height:55px;" id='select-tablebutton' onclick="displayElt('select-table','select-tablebutton')">
+          <strong><i>>> Selectionnez votre table</i></strong>
+      </div>
+      <div class="row w-100"></div>
+      <div class="row col-9 d-flex justify-content-center">ou</div>
+      <div class="d-flex col-9 p-0 m-1 rounded bg-dark justify-content-center text-center align-items-center"
+          style="height:55px;" id='join-tablebutton' onclick="displayElt('join-table','join-tablebutton')">
+          <strong><i>>> Rejoignez une table</i></strong>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
   {% if open_table %}
+  
   <section class="page-section pt-2">
-    <div class="container-fluid col-lg-11">
+    {% if taken_table %}
+    <div class="container-fluid col-lg-11" id="select-table" style="display: none;">
+    {% else %}
+    <div class="container-fluid col-lg-11" id="select-table" style="display: block;">
+    {% endif %}
+      <hr class="divider">
       <div class="row d-flex text-center justify-content-center">
         <h3>Sélectionnez votre table:</h3>
         <div class="row w-100"></div>
@@ -46,13 +69,13 @@
   </section>
 
   {% if taken_table %}
-  
   <section class="page-section py-2">
-    
-    <div class="container-fluid col-lg-11">
-      
-      <div class="row d-flex text-center justify-content-center align-items-center">ou</div>
-      <hr class="divider">
+    {% if open_table %}
+    <div class="container-fluid col-lg-11" id="join-table" style="display: none;">
+    {% else %}
+    <div class="container-fluid col-lg-11" id="join-table" style="display: block;">
+    {% endif %}
+    <hr class="divider">
       <div class="row d-flex text-center justify-content-center align-items-center">
         <h3 class="pb-3">Rejoignez une table</h3>
         <div class="row w-100"></div>
