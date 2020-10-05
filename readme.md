@@ -77,13 +77,11 @@
 * **customer** - name: **toto**, password: **mdp123456**
 * **Staff** - name: **manager**, password: **mdpadmin**
 
-## SCREENSHOTS
+## USER STORY
 <p align="center">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/connexion.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/select-table.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/order.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/get-orders.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/2-users.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/manager.PNG">
-  <img height=40% src="https://github.com/sylrie/P13_eorders/blob/master/docs/Pay.PNG">
+  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story1.PNG">
+  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story2.PNG">
+  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story3.PNG">
+  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story4.PNG">
+  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story5.PNG">
 </p>
