@@ -79,9 +79,9 @@
 
 ## USER STORY
 <p align="center">
-  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story1.PNG">
-  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story2.PNG">
-  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story3.PNG">
-  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story4.PNG">
-  <img height=80% src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story5.PNG">
+  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story1.PNG">
+  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story2.PNG">
+  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story3.PNG">
+  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story4.PNG">
+  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story5.PNG">
 </p>
