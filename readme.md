@@ -39,7 +39,7 @@
 
 * **See Menu**: the visitor can see the menu
 * **See Comment**: the visitor can see comments
-* **authentication**: the visitor can signin or signup
+* **Authentication**: the visitor can signin or signup
 
 <p><u>Customers</u></p>
 
@@ -57,8 +57,8 @@
 
 <p><u>Staff member</u></p>
 
-* **orders**: the Staff member can see orders and change status orders
-* **calls**: the Staff member can see calls and close them
+* **Orders**: the Staff member can see orders and change status orders
+* **Calls**: the Staff member can see calls and close them
 * **See Comment**: the Staff can see comments
 * **Send Comment**: the Staff can send a comment
 * **hide Comment**: the Staff can hide a comment
@@ -78,10 +78,11 @@
 * **Staff** - name: **manager**, password: **mdpadmin**
 
 ## USER STORY
+> Toto:
+* **Toto** joins his friend Lily at the restaurant
 <p align="center">
   <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story1.PNG">
   <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story2.PNG">
   <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story3.PNG">
   <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story4.PNG">
-  <img src="https://github.com/sylrie/P13_eorders/blob/master/docs/user-story5.PNG">
 </p>
