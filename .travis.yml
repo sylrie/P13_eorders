@@ -21,4 +21,4 @@ addons:
 script:
   - python manage.py test product/tests
   - python manage.py test message/tests
-  - python manage.py test commande/tests
+  - python manage.py test command/tests
