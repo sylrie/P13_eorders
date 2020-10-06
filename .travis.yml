@@ -4,7 +4,7 @@ python:
 
 before_script:
   - pip install -r requirements.txt
-  
+  - psql -c "CREATE USER MFP WITH PASSWORD 'Services@MFP';" -U postgres
 
 # safelist
 branches:
