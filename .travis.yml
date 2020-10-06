@@ -11,7 +11,7 @@ branches:
   only:
     - master
 
-env: DJANGO_SETTINGS_MODULE="MFPservices.settings"
+env: DJANGO_SETTINGS_MODULE="MFPservices.settings.travis"
 
 services:
   - postgresql
