@@ -17,7 +17,7 @@ services:
   - postgresql
 
 addons:
-  postgresql: "9.4"
+  postgresql: "9.6"
 
 script:
   - python manage.py test product/tests
