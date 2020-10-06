@@ -4,6 +4,7 @@ python:
 
 before_script:
   - pip install -r requirements.txt
+  - psql -c "CREATE USER travis WITH PASSWORD 'travis';" -U postgres
 
 # safelist
 branches:
