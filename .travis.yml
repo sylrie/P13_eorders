@@ -4,14 +4,18 @@ python:
 
 before_script:
   - pip install -r requirements.txt
-  - psql -c "CREATE USER testuser WITH PASSWORD 'testuser';" -U postgres
+
 
 # safelist
 branches:
   only:
     - master
 
-env: DJANGO_SETTINGS_MODULE="MFPservices.settings"
+env: 
+  - DJANGO_SETTINGS_MODULE="MFPservices.settings"
+  - DB_NAME=""
+  - DB_USER=""
+  - DB_PASSWORD=""
 
 services:
   - postgresql
