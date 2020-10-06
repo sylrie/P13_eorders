@@ -13,5 +13,3 @@ class TestViews(TestCase):
         response = self.client.get(reverse('menu'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product/menu.html')
-
-        
