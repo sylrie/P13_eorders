@@ -3,7 +3,6 @@ from django.urls import resolve, reverse
 from django.db.models.query import QuerySet
 
 
-
 class TestViews(TestCase):
     
     def setUp(self):
