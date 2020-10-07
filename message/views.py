@@ -16,6 +16,8 @@ def new_comment(request):
             check = Comment.objects.filter(user=user, message=message)
             if not check:
                 CommentManager().new_comment(user=user, message=message)
+    else:
+        pass
     
     if request.user.is_staff:
         return StaffManager().all_data(request)    

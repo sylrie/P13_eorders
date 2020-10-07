@@ -39,6 +39,7 @@ def openning_bill(request):
     """ select a table and open a bill if bill not exist """
     if not request.user.is_authenticated:
          return index(request)
+    
     if request.method == 'POST':
         form = JoinTable(request.POST)
         if form.is_valid():
@@ -47,12 +48,12 @@ def openning_bill(request):
             secret_code = Table.objects.get(number=int(table))
             
             if secret_code.code == code:
-                
                 new_connection = table_connection(table=table, user=request.user)
                 
             else:
                 message = "Mauvais code"
                 return index(request, error=message)
+        
         else:
             pass
             
@@ -82,7 +83,6 @@ class OrderManager():
         self.message = None
         
         if self.user: 
-            
             try:
                 self.table = TableConnectManager().get_connection_table(user=self.user)
             except:
@@ -110,15 +110,11 @@ class OrderManager():
         self.calls = None
         self.comments = Comment.objects.filter(visible=True)[:15]
 
-
         if request.GET.get('add-product'):
-           
             product = request.GET.get("add-product")
-        
             self.product = ProductManager().get_product(product)
             
             try:
-
                 self.order_id = CommandManager().new_order(user=self.user, bill=self.bill, product=self.product)         
                 self.message = "+ {}".format(self.product.name)
                 
@@ -128,7 +124,6 @@ class OrderManager():
                 return index(request, error=self.message)
 
         else:
-
             if request.GET.get('del-product'):
                 self.order_id = request.GET.get('del-product')
 
@@ -145,14 +140,11 @@ class OrderManager():
                 except:
                     self.error = "La commande à déjà été prise en compte ou supprimée"
                     
-        
         if request.GET.get('del-product-bill'):
             return self.get_bill(request)
       
         else:
-            
             self.new_data = CommandManager().order_data(user=self.user, bill=self.bill, status="new")
-            
             self.calls = CallManager().get_calls(table=self.table)
 
             context = {
@@ -217,7 +209,6 @@ class OrderManager():
                 "filter": 'Client  '
             }
             
-        
         else:
             self.new_data = CommandManager().order_data(bill=self.bill, status="new")
             self.order_data = CommandManager().order_data(bill=self.bill)
@@ -251,6 +242,7 @@ class OrderManager():
         self.bill_amount = CommandManager().get_amount(bill=self.bill)
         self.tip_amount = TipsManager().get_tip_amount(bill=self.bill)
         self.tip_amount = self.tip_amount['amount__sum']
+        
         if not self.bill_amount:
             return self.ordering(request)
 
@@ -262,8 +254,7 @@ class OrderManager():
             else:
                 self.rest_amount = self.bill_amount - self.payed_amount
         else:
-            if self.tip_amount:
-                
+            if self.tip_amount:      
                 self.rest_amount = self.bill_amount + self.tip_amount
             else:
                 self.rest_amount = self.bill_amount
@@ -284,7 +275,6 @@ class OrderManager():
         
         self.split_bill = self.rest_amount/self.nbr_user
       
-
         context = {
             'user':self.user,
             'bill_amount': self.bill_amount,
@@ -344,9 +334,8 @@ class OrderManager():
                 
                 self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
                 amount =  self.bill_user['price__sum']
-
+                
                 payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
-
                 if payed:
                     PaymentManager().pay_orders(user=self.user, bill=self.bill)
                     TableConnectManager().close_connection_table(table=self.table, user=self.user)
@@ -356,7 +345,6 @@ class OrderManager():
                 self.nbr_user = len(self.customers)
                 amount = self.bill_amount/self.nbr_user
                 
-
                 payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
                 if payed:
                     TableConnectManager().close_connection_table(table=self.table, user=self.user)
@@ -440,7 +428,6 @@ class StaffManager():
             amount = CommandManager().get_amount(bill=bill)
 
             PaymentManager().payment_bill(user=request.user, bill=bill, amount=amount)
-            
             
             table = bill.table.number
             TableConnectManager().close_connection_table(table=table)
