@@ -41,7 +41,7 @@ class TestViews(TestCase):
         )
         self.product = Product.objects.create(
             name='nom du produit',
-            unit_price=2.2,
+            unit_price=2.28,
             category=self.category,
             family=self.family,
             taxe=self.taxe
@@ -110,16 +110,21 @@ class TestViews(TestCase):
         #get_bill
         response = self.client.get(reverse('get_bill'))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.product.name)
+        self.assertContains(response, '2,28 €')
+        self.assertNotContains(response, 'Payer')
         self.assertTemplateUsed(response, 'command/bill.html')
 
         #chek_bill
         response = self.client.get(reverse('check_bill'))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '2,28 €')
         self.assertTemplateUsed(response, 'command/check_bill.html')
-
+        
         #del order
         response = self.client.get(reverse('ordering_del'), {'del-product': 1})
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '0 €')
         self.assertTemplateUsed(response, 'command/ordering.html')
         self.assertContains(response, "- {}".format(self.product.name))
 
