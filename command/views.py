@@ -320,12 +320,22 @@ class OrderManager():
                 return self.check_bill(request)
 
             elif request.GET.get('total-amount'):
+                try:
+                    tips = Tips.objects.filter(bill=self.bill).aggregate(Sum('amount'))
+                    tip_amount = tips['amount__sum']
+                    
+                except:
+                    tip_amount = 0
                 
-                amount = CommandManager().get_amount(bill=self.bill)
+                payed_amount = PaymentManager().get_payment(bill=self.bill)
+                if payed_amount:
+                    amount = CommandManager().get_amount(bill=self.bill) + tip_amount - payed_amount
+                else:
+                    amount = CommandManager().get_amount(bill=self.bill) + tip_amount
+
                 if amount:
                     payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
                     if payed:
-
                         TableConnectManager().close_connection_table(table=self.table)
                 else:
                     redirect('index')
@@ -333,8 +343,14 @@ class OrderManager():
             elif request.GET.get('user-amount'):
                 
                 self.bill_user = CommandManager().get_bill_data(user=self.user, bill=self.bill).aggregate(Sum('price'))
-                amount =  self.bill_user['price__sum']
-                
+                try:
+                    tip_user = Tips.objects.get(user=self.user, bill=self.bill)
+                    tip_amount = tip_user.amount
+                    
+                except:
+                    tip_amount = 0
+
+                amount = self.bill_user['price__sum'] + tip_amount
                 payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
                 if payed:
                     PaymentManager().pay_orders(user=self.user, bill=self.bill)
@@ -343,7 +359,17 @@ class OrderManager():
             elif request.GET.get('split-amount'):
                 self.customers = TableConnectManager().get_customers(table=self.table)
                 self.nbr_user = len(self.customers)
-                amount = self.bill_amount/self.nbr_user
+                try:
+                    tips = Tips.objects.filter(bill=self.bill).aggregate(Sum('amount'))
+                    tip_amount = tips['amount__sum']
+                except:
+                    tip_amount = 0
+
+                payed_amount = PaymentManager().get_payment(bill=self.bill)
+                if payed_amount:
+                    amount = (self.bill_amount + tip_amount - payed_amount)/self.nbr_user
+                else:
+                    amount = (self.bill_amount + tip_amount)/self.nbr_user
                 
                 payed = PaymentManager().payment_bill(user=self.user, bill=self.bill, amount=amount)
                 if payed:

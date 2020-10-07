@@ -92,7 +92,6 @@ class CommandManager(models.Model):
         except Exception as e:
             print(e)
             
-
     def order_data(self, bill, status=None, user=None):
         """ get qty and price """
         if status:
