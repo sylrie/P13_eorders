@@ -1,4 +1,5 @@
 import random
+
 from .models import Table, TableConnect, Bill
 from product.models import ProductManager
 
