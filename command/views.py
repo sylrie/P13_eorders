@@ -325,8 +325,10 @@ class OrderManager():
                     tip_amount = tips['amount__sum']
                     
                 except:
+                    pass
+                if not tip_amount:
                     tip_amount = 0
-                
+
                 payed_amount = PaymentManager().get_payment(bill=self.bill)
                 if payed_amount:
                     amount = CommandManager().get_amount(bill=self.bill) + tip_amount - payed_amount
@@ -348,6 +350,8 @@ class OrderManager():
                     tip_amount = tip_user.amount
                     
                 except:
+                    pass
+                if not tip_amount:
                     tip_amount = 0
 
                 amount = self.bill_user['price__sum'] + tip_amount
@@ -363,6 +367,8 @@ class OrderManager():
                     tips = Tips.objects.filter(bill=self.bill).aggregate(Sum('amount'))
                     tip_amount = tips['amount__sum']
                 except:
+                    pass
+                if not tip_amount:
                     tip_amount = 0
 
                 payed_amount = PaymentManager().get_payment(bill=self.bill)
